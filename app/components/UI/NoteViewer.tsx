@@ -4,21 +4,22 @@ import { useState, useEffect, TextareaHTMLAttributes } from "react";
 import React from "react";
 import { Note } from "@/app/Types/Note";
 import Button from "./Button";
-import { updateNote } from "@/app/_services/notes-service";
+import { deleteNote, updateNote } from "@/app/_services/notes-service";
 import { useUserAuth } from "@/app/_utils/auth-context";
 
 type Props = {
   note: Note;
   handleAddNote : Function,
   setViewedNote: Function,
+  handleDeleteNode: Function,
 
 };
 
-function NoteViewer({note, handleAddNote, setViewedNote}: Props) {
+function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode}: Props) {
 
-    const [title, setTitle] = useState("New Note")
-    const [content , setContent] = useState("Type Here");
-    const [date, setDate] = useState(`${new Date().getDate()}`);
+    const [title, setTitle] = useState("")
+    const [content , setContent] = useState("");
+    const [date, setDate] = useState("");
     const {user} = useUserAuth(); 
 
     useEffect(
@@ -74,6 +75,18 @@ function NoteViewer({note, handleAddNote, setViewedNote}: Props) {
         }
     }
 
+    function del()
+    { 
+        deleteNote(user, note);
+        setViewedNote();
+        setTitle("");
+        setContent("");
+        setDate(""); 
+        handleDeleteNode(note)
+    }
+
+
+
 
 
   return (
@@ -86,7 +99,7 @@ function NoteViewer({note, handleAddNote, setViewedNote}: Props) {
        <textarea className="textarea-lg" placeholder="New Note" onChange={(e) => handleContentChange(e)} value={content}></textarea>
       </div>
       <div className="py-2 flex flex-row justify-end gap-2">
-        <Button title="Delete" func={() => alert("Notes deleted")}></Button>
+        <Button title="Delete" func={() => del()}></Button>
         <Button title="Save" func={save}></Button>
         <Button title="Deselect" func={() => handleDeselect()}/>
       </div>
