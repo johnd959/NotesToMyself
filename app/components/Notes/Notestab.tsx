@@ -8,8 +8,8 @@ type Props = {
 
 function Notestab ({note, onSetViewedNote} : Props) {
     return (
-        <div className="p-2 hover:bg-white max-w-fit">
-            <h2 className="text-white" onClick={() => onSetViewedNote(note)}>{note.title}</h2>
+        <div className="btn">
+            <h2 onClick={() => onSetViewedNote(note)}>{note.title}</h2>
         </div>
     );
 }

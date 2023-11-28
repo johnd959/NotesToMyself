@@ -49,9 +49,7 @@ export default function NotesPage()
         setNotes([...notes, note]);
       }
       function handleDeleteNote(note: Note){
-        setNotes(notes.filter((item: Note) => {
-            item.id != note.id
-        })); 
+        setNotes(notes.filter((item:Note) => item.id != note.id)); 
       }
     
 
