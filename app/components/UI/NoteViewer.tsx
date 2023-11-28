@@ -93,8 +93,8 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode}: Prop
     <div>
       <div className="flex flex-col">
         <div className="flex flex-row justify-between">
-          <input className="label" value={title} onChange={(e) => handleTitleChange(e)}></input>
-          <input className="badge" value={date} onChange={(e) => handleDateChange(e)}></input>
+          <input className="label" value={title} placeholder="Title" onChange={(e) => handleTitleChange(e)}></input>
+          <input className="badge" value={date} placeholder="Date" onChange={(e) => handleDateChange(e)}></input>
         </div>
        <textarea className="textarea-lg" placeholder="New Note" onChange={(e) => handleContentChange(e)} value={content}></textarea>
       </div>
