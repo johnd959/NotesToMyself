@@ -4,24 +4,30 @@ import { useState, useEffect, TextareaHTMLAttributes } from "react";
 import React from "react";
 import { Note } from "@/app/Types/Note";
 import Button from "./Button";
+import { updateNote } from "@/app/_services/notes-service";
+import { useUserAuth } from "@/app/_utils/auth-context";
 
 type Props = {
   note: Note;
   handleAddNote : Function,
+  setViewedNote: Function,
 
 };
 
-function NoteViewer({note, handleAddNote}: Props) {
+function NoteViewer({note, handleAddNote, setViewedNote}: Props) {
 
     const [title, setTitle] = useState("New Note")
     const [content , setContent] = useState("Type Here");
     const [date, setDate] = useState(`${new Date().getDate()}`);
+    const {user} = useUserAuth(); 
 
     useEffect(
         () => {
-            setTitle(note.title);
-            setContent(note.content);
-            setDate(note.date);
+            if(note){
+                setTitle(note.title);
+                setContent(note.content);
+                setDate(note.date);
+            }
         },
         [note]
     )
@@ -39,6 +45,13 @@ function NoteViewer({note, handleAddNote}: Props) {
     {
         setDate(event.currentTarget.value);
     }
+    function handleDeselect()
+    {
+        setViewedNote();
+        setTitle("");
+        setContent("");
+        setDate(""); 
+    }
 
     function save()
     {
@@ -47,12 +60,12 @@ function NoteViewer({note, handleAddNote}: Props) {
             note.title = title;
             note.content = content;
             note.date = date; 
+            updateNote(user, note);
         }
         else
         {
             handleAddNote(
                 {
-                    id: "",
                     title: title,
                     content: content,
                     date: date,
@@ -75,6 +88,7 @@ function NoteViewer({note, handleAddNote}: Props) {
       <div className="py-2 flex flex-row justify-end gap-2">
         <Button title="Delete" func={() => alert("Notes deleted")}></Button>
         <Button title="Save" func={save}></Button>
+        <Button title="Deselect" func={() => handleDeselect()}/>
       </div>
     </div>
   );

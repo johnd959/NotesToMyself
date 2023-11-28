@@ -1,11 +1,11 @@
 import { User } from "firebase/auth";
 import { db } from "../_utils/firebase";
 import { Note } from "../Types/Note";
-import { collection, getDocs, addDoc, query } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, doc, updateDoc } from "firebase/firestore";
 
 
 
-export async function getNotes(user : any)
+export async function getNotes(user : User)
 {
     let notes:Note[] = []; 
     console.log("In getNotes with: " + user.uid); 
@@ -35,4 +35,36 @@ export async function getNotes(user : any)
     
     return notes; 
 
+}
+
+export async function updateNote(user: User, note: Note)
+{
+    if(note && note.id.length !== 0)
+    {
+        const docRef = doc(db, "users", user.uid, "notes", note.id); 
+        try{
+            await updateDoc(docRef, {
+                title: note.title,
+                content: note.content,
+                date: note.date
+            }); 
+        }
+        catch(ex :any){
+            console.log(ex); 
+        }
+    }
+}
+
+export async function createNote(user: User, note: Note)
+{
+    try{
+        const docRef = await addDoc(
+            collection(db, "users", user.uid, "notes"),
+            note
+        )
+        console.log(docRef.id + " created.");
+    }
+    catch(ex : any){
+        console.log(ex);
+    }
 }

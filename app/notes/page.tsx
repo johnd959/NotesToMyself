@@ -6,7 +6,7 @@ import { Note } from "../Types/Note";
 import { useUserAuth } from "../_utils/auth-context";
 import NoteViewer from "../components/UI/NoteViewer";
 import { redirect } from "next/navigation";
-import { getNotes } from "../_services/notes-service";
+import { createNote, getNotes } from "../_services/notes-service";
 import { loadManifestWithRetries } from "next/dist/server/load-components";
 
 export default function NotesPage()
@@ -25,7 +25,6 @@ export default function NotesPage()
       async function loadNotes()
       {
         let items = await getNotes(user); 
-        console.log(items);
         setNotes(items);
       }
   
@@ -44,12 +43,12 @@ export default function NotesPage()
     
       function handleSetViewedNote(note: Note)
       {
-        console.log(note);
         setViewedNote(note); 
       }
     
       function handleAddNote(note : Note)
       {
+        createNote(user, note); 
         setNotes([...notes, note]);
       }
     
@@ -61,7 +60,7 @@ export default function NotesPage()
             <main className="flex flex-row">
             <Sidebar notes={notes} handleSetViewedNote={handleSetViewedNote}></Sidebar>
             <section className="flex min-h-screen min-w-full flex-col justify-center items-center bg-blue-50">
-              <NoteViewer note={viewedNote} handleAddNote={handleAddNote}></NoteViewer>
+              <NoteViewer note={viewedNote} handleAddNote={handleAddNote} setViewedNote={setViewedNote}></NoteViewer>
             </section>
           </main>
         )
