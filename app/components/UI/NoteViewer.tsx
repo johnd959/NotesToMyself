@@ -16,14 +16,16 @@ function NoteViewer({note, handleAddNote}: Props) {
     const [title, setTitle] = useState("New Note")
     const [content , setContent] = useState("Type Here");
     const [date, setDate] = useState(`${new Date().getDate()}`);
-    
 
-    if(note){
-        useEffect(
-            () => {setContent(note.content); setDate(note.date); setTitle(note.title);},
-            [note]
-        )
-    }
+    useEffect(
+        () => {
+            setTitle(note.title);
+            setContent(note.content);
+            setDate(note.date);
+        },
+        [note]
+    )
+    
 
     function handleContentChange(event : React.FormEvent<HTMLTextAreaElement>)
     {

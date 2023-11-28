@@ -29,7 +29,7 @@ export default function Home() {
 
   if(user)
   {
-    console.log(user?.displayName)
+    console.log(user?.displayName + " " + user?.uid);
     redirect("/notes", 'push'); 
   }
   else

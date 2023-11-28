@@ -1,39 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../components/UI/Sidebar";
 import { Note } from "../Types/Note";
 import { useUserAuth } from "../_utils/auth-context";
 import NoteViewer from "../components/UI/NoteViewer";
 import { redirect } from "next/navigation";
+import { getNotes } from "../_services/notes-service";
+import { loadManifestWithRetries } from "next/dist/server/load-components";
 
 export default function NotesPage()
 {   
 
     const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
-     
+    const [notes, setNotes] = useState([]);
+    const [viewedNote, setViewedNote] = useState({
+        id: "11212",
+        title: "Empty",
+        content: "Lorem ipsum",
+        date: "Today"
+    });
 
-    const [notes, setNotes] = useState(
-        [
-          {
-            id: "1234",
-            title: "Buy dog food",
-            content: "Buy 2 bags of dog food from Superstore",
-            date: "Today",
+
+      async function loadNotes()
+      {
+        let items = await getNotes(user); 
+        console.log(items);
+        setNotes(items);
+      }
+  
+      useEffect(
+          () => {
+            try{
+                loadNotes();
+            }
+            catch (ex : any){
+                console.log(ex); 
+            }
           },
-          {
-            id: "1235",
-            title: "Buy dog food 2",
-            content: "Buy 3 bags of dog food from Superstore",
-            date: "Today",
-          },
-        ]
+          [user]
       )
-      const [viewedNote, setViewedNote] = useState(notes[0]);
+       
     
       function handleSetViewedNote(note: Note)
       {
-        console.log('running');
+        console.log(note);
         setViewedNote(note); 
       }
     
