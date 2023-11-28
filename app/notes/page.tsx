@@ -14,12 +14,7 @@ export default function NotesPage()
 
     const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
     const [notes, setNotes] = useState([]);
-    const [viewedNote, setViewedNote] = useState({
-        id: "11212",
-        title: "Empty",
-        content: "Lorem ipsum",
-        date: "Today"
-    });
+    const [viewedNote, setViewedNote] = useState();
 
 
       async function loadNotes()
@@ -46,10 +41,17 @@ export default function NotesPage()
         setViewedNote(note); 
       }
     
-      function handleAddNote(note : Note)
+      async function handleAddNote(note : Note)
       {
-        createNote(user, note); 
+        let id:string = await createNote(user, note); 
+        note.id = id; 
+        setViewedNote(note); 
         setNotes([...notes, note]);
+      }
+      function handleDeleteNote(note: Note){
+        setNotes(notes.filter((item: Note) => {
+            item.id != note.id
+        })); 
       }
     
 
@@ -60,7 +62,7 @@ export default function NotesPage()
             <main className="flex flex-row">
             <Sidebar notes={notes} handleSetViewedNote={handleSetViewedNote}></Sidebar>
             <section className="flex min-h-screen min-w-full flex-col justify-center items-center bg-blue-50">
-              <NoteViewer note={viewedNote} handleAddNote={handleAddNote} setViewedNote={setViewedNote}></NoteViewer>
+              <NoteViewer note={viewedNote} handleAddNote={handleAddNote} setViewedNote={setViewedNote} handleDeleteNode={handleDeleteNote}></NoteViewer>
             </section>
           </main>
         )

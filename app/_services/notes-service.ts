@@ -1,7 +1,7 @@
 import { User } from "firebase/auth";
 import { db } from "../_utils/firebase";
 import { Note } from "../Types/Note";
-import { collection, getDocs, addDoc, query, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, doc, updateDoc, deleteDoc } from "firebase/firestore";
 
 
 
@@ -63,8 +63,20 @@ export async function createNote(user: User, note: Note)
             note
         )
         console.log(docRef.id + " created.");
+        return docRef?.id;
     }
     catch(ex : any){
+        console.log(ex);
+    }
+}
+
+export async function deleteNote(user:User, note:Note) {
+    try{
+        const docRef = doc(db, "users", user.uid, "notes", note.id);
+        await deleteDoc(docRef);
+    }
+    catch(ex :any)
+    {
         console.log(ex);
     }
 }
