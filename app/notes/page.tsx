@@ -15,7 +15,13 @@ export default function NotesPage()
     const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
     let temp:Note[] = []; 
     const [notes, setNotes] = useState(temp);
-    const [viewedNote, setViewedNote] = useState();
+    let tempNote:Note = {
+      id: "",
+      title: "",
+      content: "",
+      date: ""
+    } //temp fix
+    const [viewedNote, setViewedNote] = useState(tempNote);
 
 
       async function loadNotes()
@@ -44,8 +50,10 @@ export default function NotesPage()
     
       async function handleAddNote(note : Note)
       {
-        let id:string = await createNote(user, note); 
-        note.id = id; 
+        let id = await createNote(user, note); 
+        if(id){
+          note.id = id; //temp fix
+        }
         setViewedNote(note); 
         setNotes([...notes, note]);
       }
