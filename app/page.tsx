@@ -12,12 +12,24 @@ import Link from "next/link";
 
 export default function Home() {
 
-  const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
+  const {emailSignIn} = useUserAuth(); 
+  const { user, gitHubSignIn, firebaseSignOut} = useUserAuth();
 
-  async function signIn()
+  async function signInWithGitHub()
   {
     try{
       await gitHubSignIn();
+    }
+    catch(ex : any)
+    {
+      console.error(ex); 
+    }
+  }
+
+  async function signInWithEmail()
+  {
+    try{
+      await emailSignIn();
     }
     catch(ex : any)
     {
@@ -29,7 +41,7 @@ export default function Home() {
 
   if(user)
   {
-    console.log(user?.displayName + " " + user?.uid);
+    console.log(user?.displayName);
     redirect("/notes", RedirectType.push); 
     return(
       <Link href="/notes">Click if redirect does not work</Link>
@@ -40,7 +52,8 @@ export default function Home() {
     return(
       <main className="flex flex-col justify-center items-center w-screen h-screen">
         <div>
-          <Button title="Sign In With GitHub" func={() => signIn()}></Button>
+          <Button title="Sign In With GitHub" func={() => signInWithGitHub()}></Button>
+          <Button title="Sign In With Email" func={() => signInWithEmail()}/>
         </div>
       </main>
     )
