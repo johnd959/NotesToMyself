@@ -5,9 +5,8 @@ import Sidebar from "../components/UI/Sidebar";
 import { Note } from "../Types/Note";
 import { useUserAuth } from "../_utils/auth-context";
 import NoteViewer from "../components/UI/NoteViewer";
-import { redirect } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 import { createNote, getNotes } from "../_services/notes-service";
-import { loadManifestWithRetries } from "next/dist/server/load-components";
 
 export default function NotesPage()
 {   
@@ -76,7 +75,7 @@ export default function NotesPage()
       }
       else
       {
-        redirect("/", 'push');
+        redirect("/", RedirectType.push );
       }
 
 }
