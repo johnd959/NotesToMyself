@@ -7,8 +7,7 @@ import { collection, getDocs, addDoc, query, doc, updateDoc, deleteDoc } from "f
 
 export async function getNotes(user : User)
 {
-    let notes:Note[] = []; 
-    console.log("In getNotes with: " + user.uid); 
+    let notes:Note[] = [];  
     const q = query(
         collection(db, "users", user.uid, "notes")
     );
