@@ -5,16 +5,22 @@ import Sidebar from "../components/UI/Sidebar";
 import { Note } from "../Types/Note";
 import { useUserAuth } from "../_utils/auth-context";
 import NoteViewer from "../components/UI/NoteViewer";
-import { redirect } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 import { createNote, getNotes } from "../_services/notes-service";
-import { loadManifestWithRetries } from "next/dist/server/load-components";
 
 export default function NotesPage()
 {   
 
     const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
-    const [notes, setNotes] = useState([]);
-    const [viewedNote, setViewedNote] = useState();
+    let temp:Note[] = []; 
+    const [notes, setNotes] = useState(temp);
+    let tempNote:Note = {
+      id: "",
+      title: "",
+      content: "",
+      date: ""
+    } //temp fix
+    const [viewedNote, setViewedNote] = useState(tempNote);
 
 
       async function loadNotes()
@@ -43,8 +49,10 @@ export default function NotesPage()
     
       async function handleAddNote(note : Note)
       {
-        let id:string = await createNote(user, note); 
-        note.id = id; 
+        let id = await createNote(user, note); 
+        if(id){
+          note.id = id; //temp fix
+        }
         setViewedNote(note); 
         setNotes([...notes, note]);
       }
@@ -67,7 +75,7 @@ export default function NotesPage()
       }
       else
       {
-        redirect("/", 'push');
+        redirect("/", RedirectType.push );
       }
 
 }

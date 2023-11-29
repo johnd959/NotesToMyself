@@ -7,7 +7,7 @@ import { useState } from "react";
 import Sidebar from "./components/UI/Sidebar";
 import { useUserAuth } from "./_utils/auth-context";
 import Button from "./components/UI/Button";
-import { redirect } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 import Link from "next/link";
 
 export default function Home() {
@@ -30,7 +30,10 @@ export default function Home() {
   if(user)
   {
     console.log(user?.displayName + " " + user?.uid);
-    redirect("/notes", 'push'); 
+    redirect("/notes", RedirectType.push); 
+    return(
+      <Link href="/notes">Click if redirect does not work</Link>
+    )
   }
   else
   {
