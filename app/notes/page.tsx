@@ -63,7 +63,6 @@ export default function NotesPage()
 
 
       if(user){
-        console.log("In notes with: " + user.displayName)
         return(
             <main className="flex flex-row">
             <Sidebar notes={notes} handleSetViewedNote={handleSetViewedNote}></Sidebar>

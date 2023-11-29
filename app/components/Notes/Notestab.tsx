@@ -8,8 +8,8 @@ type Props = {
 
 function Notestab ({note, onSetViewedNote} : Props) {
     return (
-        <div className="btn">
-            <h2 onClick={() => onSetViewedNote(note)}>{note.title}</h2>
+        <div className="btn" onClick={() => onSetViewedNote(note)}>
+            <h2>{note.title}</h2>
         </div>
     );
 }

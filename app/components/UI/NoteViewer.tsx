@@ -56,7 +56,7 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode}: Prop
 
     function save()
     {
-        if(note)
+        if(note && note.id)
         {
             note.title = title;
             note.content = content;
