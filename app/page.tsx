@@ -31,6 +31,9 @@ export default function Home() {
   {
     console.log(user?.displayName + " " + user?.uid);
     redirect("/notes", RedirectType.push); 
+    return(
+      <Link href="/notes">Click if redirect does not work</Link>
+    )
   }
   else
   {
