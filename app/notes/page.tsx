@@ -13,7 +13,8 @@ export default function NotesPage()
 {   
 
     const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
-    const [notes, setNotes] = useState([]);
+    let temp:Note[] = []; 
+    const [notes, setNotes] = useState(temp);
     const [viewedNote, setViewedNote] = useState();
 
 
