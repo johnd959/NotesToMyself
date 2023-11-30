@@ -8,9 +8,9 @@ type Props = {
 
 function Notestab ({note, onSetViewedNote} : Props) {
     return (
-        <div className="btn">
-            <h2 onClick={() => onSetViewedNote(note)}>{note.title}</h2>
-        </div>
+        <li style={{minWidth: ""}} className="btn rounded-none mx-2 flex flex-row justify-start" onClick={() => onSetViewedNote(note)}>
+            <h2 className="text-left">{note.title.length > 25 ? note.title.substring(0, 25) + "..." : note.title}</h2>
+        </li>
     );
 }
 

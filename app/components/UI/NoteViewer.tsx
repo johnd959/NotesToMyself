@@ -29,6 +29,12 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode}: Prop
                 setContent(note.content);
                 setDate(note.date);
             }
+            else
+            {
+                setTitle("");
+                setContent("");
+                setDate(""); 
+            }
         },
         [note]
     )
@@ -48,15 +54,13 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode}: Prop
     }
     function handleDeselect()
     {
+
         setViewedNote();
-        setTitle("");
-        setContent("");
-        setDate(""); 
     }
 
     function save()
     {
-        if(note)
+        if(note && note.id)
         {
             note.title = title;
             note.content = content;
@@ -73,6 +77,7 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode}: Prop
                 }
             )
         }
+        handleDeselect();
     }
 
     function del()
@@ -91,12 +96,12 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode}: Prop
 
   return (
     <div>
-      <div className="flex flex-col">
+      <div style={{minWidth: "75vw", minHeight: "75vh"}} className="flex flex-col gap-2">
         <div className="flex flex-row justify-between">
-          <input className="label" value={title} placeholder="Title" onChange={(e) => handleTitleChange(e)}></input>
+          <input className="label border-5 border-black rounded" value={title} placeholder="Title" onChange={(e) => handleTitleChange(e)}></input>
           <input className="badge" value={date} placeholder="Date" onChange={(e) => handleDateChange(e)}></input>
         </div>
-       <textarea className="textarea-lg" placeholder="New Note" onChange={(e) => handleContentChange(e)} value={content}></textarea>
+       <textarea style={{minHeight: "70vh"}} className="textarea-lg" placeholder="New Note" onChange={(e) => handleContentChange(e)} value={content}></textarea>
       </div>
       <div className="py-2 flex flex-row justify-end gap-2">
         <Button title="Delete" func={() => del()}></Button>
