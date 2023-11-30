@@ -66,7 +66,7 @@ export default function NotesPage()
         return(
             <main className="flex flex-row">
             <Sidebar notes={notes} handleSetViewedNote={handleSetViewedNote}></Sidebar>
-            <section className="flex min-h-screen min-w-full flex-col justify-center items-center bg-blue-50">
+            <section className={"flex min-h-screen flex-1 flex-col justify-center items-center bg-blue-50" + {}}>
               <NoteViewer note={viewedNote} handleAddNote={handleAddNote} setViewedNote={setViewedNote} handleDeleteNode={handleDeleteNote}></NoteViewer>
             </section>
           </main>

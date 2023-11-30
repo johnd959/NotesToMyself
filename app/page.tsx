@@ -50,10 +50,9 @@ export default function Home() {
   else
   {
     return(
-      <main className="flex flex-col justify-center items-center w-screen h-screen">
-        <div>
+      <main className="flex flex-col justify-center items-center min-h-screen">
+        <div className="flex flex-col gap-2">
           <Button title="Sign In With GitHub" func={() => signInWithGitHub()}></Button>
-          <Button title="Sign In With Email" func={() => signInWithEmail()}/>
         </div>
       </main>
     )
