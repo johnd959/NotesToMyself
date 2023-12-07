@@ -12,10 +12,14 @@ type Props = {
   handleAddNote : Function,
   setViewedNote: Function,
   handleDeleteNode: Function,
+  display: String
+  setEditorVisible: Function,
 
 };
 
-function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode}: Props) {
+function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode, display, setEditorVisible}: Props) {
+
+    console.log(display);
 
     const [title, setTitle] = useState("")
     const [content , setContent] = useState("");
@@ -95,7 +99,7 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode}: Prop
 
 
   return (
-    <div className="flex flex-row gap-6 bg-black justify-center py-10" >
+    <div className={"flex-row gap-6 bg-black justify-center py-10 " + `${display}`}>
       <div  className="flex flex-col gap-3 ">
         <div className="flex flex-row justify-between ">
           <input className="input input-bordered input-sm  max-w-xs" value={title} placeholder="Title" onChange={(e) => handleTitleChange(e)}></input>
@@ -109,6 +113,7 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode}: Prop
         <Button title="Delete" func={() => del()}></Button>
         <Button title="Save" func={save}></Button>
         <Button title="Deselect" func={() => handleDeselect()}/>
+        <Button title="Hide" func={() => setEditorVisible(false)}/>
       </div>
     </div>
   );

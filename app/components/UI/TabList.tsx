@@ -5,11 +5,12 @@ import Notestab from "../Notes/Notestab";
 type Props = {
   notes: Note[];
   handleSetViewedNote: Function;
+  flex: String
 };
 
-function TabList({ notes, handleSetViewedNote }: Props) {
+function TabList({ notes, handleSetViewedNote, flex }: Props) {
   return (
-    <ul className="flex flex-1 justify-center flex-row gap-2 ">
+    <ul style={{maxWidth: "95%",}}className={"flex flex-1 flex-row gap-2 " + `${flex}`}>
       {notes.length > 0 ? 
         notes.map((Note) => 
             <Notestab
