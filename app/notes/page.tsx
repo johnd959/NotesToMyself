@@ -7,13 +7,14 @@ import { useUserAuth } from "../_utils/auth-context";
 import NoteViewer from "../components/UI/NoteViewer";
 import { RedirectType, redirect } from "next/navigation";
 import { createNote, getNotes } from "../_services/notes-service";
+import Button from "../components/UI/Button";
 
 export default function NotesPage()
 {   
 
     const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
-    let temp:Note[] = []; 
-    const [notes, setNotes] = useState(temp);
+    let noteList:Note[] = []; 
+    const [notes, setNotes] = useState(noteList);
     let tempNote:Note = {
       id: "",
       title: "",
@@ -64,11 +65,20 @@ export default function NotesPage()
 
       if(user){
         return(
-            <main className="flex flex-row">
+            <main className="flex flex-col justify-between min-h-screen" >
+              <div className="navbar bg-base-100">
+                <div className="flex-1">
+                    <a className=" text-xl ">Notes to Myself</a>
+                </div>
+                <div className="flex-none">
+                    <Button className='btn btn-neutral ' title="Sign Out" func={() => firebaseSignOut()}></Button>
+                </div>
+            </div>
             <Sidebar notes={notes} handleSetViewedNote={handleSetViewedNote}></Sidebar>
-            <section className={"flex min-h-screen flex-1 flex-col justify-center items-center bg-blue-50" + {}}>
-              <NoteViewer note={viewedNote} handleAddNote={handleAddNote} setViewedNote={setViewedNote} handleDeleteNode={handleDeleteNote}></NoteViewer>
-            </section>
+           <section style={{maxHeight:"40vh"}}>
+            <NoteViewer note={viewedNote} handleAddNote={handleAddNote} setViewedNote={setViewedNote} handleDeleteNode={handleDeleteNote}></NoteViewer>
+           </section>
+          
           </main>
         )
       }

@@ -9,7 +9,7 @@ type Props = {
 
 function TabList({ notes, handleSetViewedNote }: Props) {
   return (
-    <ul className="flex flex-1 flex-col gap-2">
+    <ul className="flex flex-1 justify-center flex-row gap-2 ">
       {notes.length > 0 ? 
         notes.map((Note) => 
             <Notestab
