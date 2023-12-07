@@ -8,8 +8,14 @@ type Props = {
 
 function Notestab ({note, onSetViewedNote} : Props) {
     return (
-        <li style={{minWidth: ""}} className="btn rounded-none mx-2 flex flex-row justify-start" onClick={() => onSetViewedNote(note)}>
-            <h2 className="text-left">{note.title.length > 25 ? note.title.substring(0, 25) + "..." : note.title}</h2>
+        <li style={{minWidth: "15vw",minHeight:"50vh",flex:0}} className="btn rounded-large mx-2 flex flex-col justify-between" onClick={() => onSetViewedNote(note)}>
+            <div style={{minHeight:"10vh"}}>
+                <h2 className="text-left">{note.title.length > 25 ? note.title.substring(0, 25) + "..." : note.title }</h2>
+            </div>
+            <div style={{minHeight:"38vh", maxWidth:"14vw"}}>
+                <p style={{minHeight:"38vh", maxWidth:"14vw"}} className="overflow-none">{note.content.length>300? note.content.substring(0,300) +"...":note.content}</p>
+            </div>
+            
         </li>
     );
 }

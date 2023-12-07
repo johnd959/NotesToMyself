@@ -17,13 +17,12 @@ function Sidebar ({notes, handleSetViewedNote}: Props) {
     const {firebaseSignOut} = useUserAuth(); 
 
     return (
-        <aside style={{minWidth: "15em"}} className='bg-black flex flex-col justify-between content-center'>
-            <div>
-                <h1 className="text-white text-center mb-10 p-2">Notes to Myself</h1>
-                <TabList handleSetViewedNote={handleSetViewedNote} notes={notes}></TabList>
-            </div>
-            <Button className='rounded-none mx-2 mb-2' title="Sign Out" func={() => firebaseSignOut()}></Button>
-        </aside>
+        <div style={{minHeight:"54vh",}} className='bg-neutral-content flex flex-row p-5 content-center overflow-y-auto '>
+            
+            <TabList handleSetViewedNote={handleSetViewedNote} notes={notes}></TabList>
+            
+           
+        </div>
     );
 }
 
