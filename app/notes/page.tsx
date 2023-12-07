@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Sidebar from "../components/UI/Sidebar";
+import Sidebar from "../components/UI/NotesScroll";
 import { Note } from "../Types/Note";
 import { useUserAuth } from "../_utils/auth-context";
 import NoteViewer from "../components/UI/NoteViewer";
