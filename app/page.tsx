@@ -4,7 +4,7 @@ import Image from "next/image";
 import NoteViewer from "./components/UI/NoteViewer";
 import { Note } from "./Types/Note";
 import { useState } from "react";
-import Sidebar from "./components/UI/Sidebar";
+import Sidebar from "./components/UI/NotesScroll";
 import { useUserAuth } from "./_utils/auth-context";
 import Button from "./components/UI/Button";
 import { RedirectType, redirect } from "next/navigation";

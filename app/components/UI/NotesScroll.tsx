@@ -17,7 +17,7 @@ function Sidebar ({notes, handleSetViewedNote}: Props) {
     const {firebaseSignOut} = useUserAuth(); 
 
     return (
-        <div style={{minHeight:"54vh",}} className='bg-neutral-content flex flex-row p-5 content-center overflow-y-auto '>
+        <div style={{minHeight:"54vh",}} className='bg-neutral-content flex flex-row p-5 content-center flex-wrap overflow-x-scroll'>
             
             <TabList handleSetViewedNote={handleSetViewedNote} notes={notes}></TabList>
             
