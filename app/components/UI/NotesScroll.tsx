@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import TabList from "./TabList";
 import { Note } from "../../Types/Note";
 import RootLayout from "@/app/layout";
@@ -29,7 +29,7 @@ function Sidebar({
 
   return (
     <div
-      style={{ minHeight: "54vh", maxHeight: `${height}` }}
+      style={{ minHeight: `${height}`}}
       className={
         "bg-neutral-content flex flex-row p-5 justify-center " + `${scroll}`
       }

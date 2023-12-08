@@ -9,7 +9,7 @@ type Props = {
 function Notestab({ note, onSetViewedNote }: Props) {
   return (
     <li
-      style={{ minWidth: "15%", minHeight: "49vh", flex: 0 }}
+      style={{ minWidth: "15%", minHeight: "47vh", flex: 0 }}
       className="btn rounded-large mx-2 flex flex-col justify-between"
       onClick={() => onSetViewedNote(note)}
     >
@@ -21,10 +21,11 @@ function Notestab({ note, onSetViewedNote }: Props) {
               : note.title}
           </h2>
         </div>
-        <div style={{ minHeight: "38vh", maxWidth: "14vw" }}>
+        <div style={{ minHeight: "35vh", maxWidth: "14vw" }}>
           <p
             style={{
-              minHeight: "38vh",
+              minHeight: "35vh",
+              maxHeight: "35vh",
               maxWidth: "14vw",
               wordBreak: "break-word",
             }}
@@ -32,6 +33,7 @@ function Notestab({ note, onSetViewedNote }: Props) {
           >
             {note.content}
           </p>
+            <p>{note.date.toLocaleDateString()}</p>
         </div>
       </div>
     </li>

@@ -104,7 +104,7 @@ function NoteViewer({ note, handleAddNote, setViewedNote, handleDeleteNode, disp
 
 
   return (
-    <div className={"flex-row gap-6 bg-black justify-center py-10 " + `${display}`}>
+    <div className={"flex-row gap-6 justify-center py-10 bg-base-300 " + `${display}`}>
       <div  className="flex flex-col gap-3 ">
         <div className="flex flex-row justify-between ">
           <input ref={titleRef} className="input input-bordered input-sm  max-w-xs" value={title} placeholder="Title" required={true} onChange={(e) => handleTitleChange(e)}></input>
@@ -115,8 +115,8 @@ function NoteViewer({ note, handleAddNote, setViewedNote, handleDeleteNode, disp
       </div>
     
       <div className="py-2 flex flex-col justify-center gap-3">
-        <Button className="btn btn-active btn-info" title="Save" func={save}></Button>
-        <Button className="btn btn-active btn-error" title="Delete" func={() => del()}></Button>
+        <Button className="btn btn-outline btn-accent" title="Save" func={save}></Button>
+        <Button className="btn btn-outline btn-error" title="Delete" func={() => del()}></Button>
         {/* <Button title="Hide" func={() => setEditorVisible(false)}/> */}
       </div>
     </div>

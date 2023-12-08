@@ -116,9 +116,9 @@ export default function NotesPage() {
   if (user) {
     return (
       <main className="flex flex-col justify-between min-h-screen">
-        <div className="navbar bg-base-100 px-5">
+        <div className="navbar bg-black px-5">
           <div className="flex-1">
-            <a className=" text-xl ">Notes to Myself</a>
+            <a className=" text-xl text-white ">Notes to Myself</a>
           </div>
           <div className="flex-none">
             {isSearchActive && (
@@ -131,7 +131,7 @@ export default function NotesPage() {
             )}
             {!isSearchActive && (
               <button
-                className="btn btn-outline btn-accent mr-3"
+                className="btn btn-accent mr-3"
                 onClick={() => {
                   const modal = document.getElementById("my_modal_4");
                   if (modal instanceof HTMLDialogElement) {
@@ -153,14 +153,14 @@ export default function NotesPage() {
                 ></input>
                 <div className="flex flex-row space-x-3">
                   <button
-                    className="btn btn-active btn-info"
+                    className="btn btn-accent"
                     onClick={handleSearchNote}
                   >
                     Search
                   </button>
 
                   <button
-                    className="btn btn-active btn-error"
+                    className="btn btn-error"
                     onClick={() => {
                       const modal = document.getElementById("my_modal_4");
                       if (modal instanceof HTMLDialogElement) {
@@ -178,13 +178,13 @@ export default function NotesPage() {
                 <div>Delete all notes?</div>
                 <div className="flex flex-row space-x-3">
                   <button
-                    className="btn btn-active btn-error"
+                    className="btn btn-error"
                     onClick={handleDeleteAllNotes}
                   >
                     Delete
                   </button>
                   <button
-                    className="btn btn-active btn-info"
+                    className="btn btn-accent"
                     onClick={() => {
                       const modal = document.getElementById("my_modal_5");
                       if (modal instanceof HTMLDialogElement) {
@@ -198,7 +198,7 @@ export default function NotesPage() {
               </div>
             </dialog>
             <Button
-              className="btn btn-outline btn-accent"
+              className="btn btn-accent"
               title="Sign Out"
               func={() => firebaseSignOut()}
             ></Button>
@@ -213,18 +213,18 @@ export default function NotesPage() {
           handleSetViewedNote={handleSetViewedNote}
           handleAddNewNote={handleAddNewNote}
           handleDeleteAllNotes={handleOpenDeleteModel}
-          height={editorVisible == true ? "54vh" : "87vh"}
+          height={editorVisible == true ? "54vh" : "85vh"}
         ></NotesScroll>
-        {editorVisible == true ? (
+          {editorVisible == true ? (
           <Button
-            className="sticky bottom-0 btn btn-outline btn-accent"
+            className="sticky bottom-0 bg-base-300 btn btn-outline btn-accent"
             title="Show More"
             func={() => setEditorVisible(false)}
           ></Button>
         ) : (
           <></>
         )}
-        <section style={{ maxHeight: "40vh" }}>
+        <section style={{ maxHeight: "40vh"}}>
           <NoteViewer
             setEditorVisible={setEditorVisible}
             display={editorVisible == true ? "flex" : "hidden"}
@@ -237,7 +237,7 @@ export default function NotesPage() {
         </section>
         {editorVisible == false ? (
           <Button
-            className="sticky bottom-0 btn btn-outline btn-accent"
+            className="sticky bottom-0 btn btn-accent"
             title="Edit Notes"
             func={() => setEditorVisible(true)}
           ></Button>
