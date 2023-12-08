@@ -9,8 +9,11 @@ import { useUserAuth } from "./_utils/auth-context";
 import Button from "./components/UI/Button";
 import { RedirectType, redirect } from "next/navigation";
 import Link from "next/link";
+import { VscGithubAlt } from "react-icons/vsc";
+import { FaGoogle } from "react-icons/fa";
 
 export default function Home() {
+
 
   const {emailSignIn} = useUserAuth(); 
   const { user, gitHubSignIn, firebaseSignOut} = useUserAuth();
@@ -51,8 +54,10 @@ export default function Home() {
   {
     return(
       <main className="flex flex-col justify-center items-center min-h-screen">
-        <div className="flex flex-col gap-2">
-          <Button title="Sign In With GitHub" func={() => signInWithGitHub()}></Button>
+        <div style={{minHeight: "40vh", minWidth: "20vw"}} className="flex flex-col justify-center gap-2 bg-black px-10 rounded-xl">
+          <h1 className="text-white text-center">Notes to Myself</h1>
+          <Button icon={VscGithubAlt} className="btn-accent" title="Continue with GitHub" func={() => signInWithGitHub()}></Button>
+          <Button icon={FaGoogle} className="btn-accent" title="Continue with Google" func={() => emailSignIn()}></Button>
         </div>
       </main>
     )

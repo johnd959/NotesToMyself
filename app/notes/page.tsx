@@ -9,6 +9,8 @@ import { RedirectType, redirect } from "next/navigation";
 import { createNote, getNotes, deleteAllNotes } from "../_services/notes-service";
 import Button from "../components/UI/Button";
 
+
+
 export default function NotesPage() {
   const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
   let noteList: Note[] = [];
@@ -217,7 +219,7 @@ export default function NotesPage() {
         ></NotesScroll>
           {editorVisible == true ? (
           <Button
-            className="sticky bottom-0 bg-base-300 btn btn-outline btn-accent"
+            className="sticky rounded-none bottom-0 bg-base-300 btn btn-outline btn-accent"
             title="Show More"
             func={() => setEditorVisible(false)}
           ></Button>
