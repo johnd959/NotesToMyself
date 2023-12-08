@@ -9,6 +9,7 @@ import { RedirectType, redirect } from "next/navigation";
 import { createNote, getNotes, deleteAllNotes } from "../_services/notes-service";
 import Button from "../components/UI/Button";
 
+
 export default function NotesPage() {
   const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
   let noteList: Note[] = [];
@@ -32,6 +33,7 @@ export default function NotesPage() {
 
       if (items.length > 0) {
         setViewedNote(items[0]);
+
       }
     } catch (ex) {
       console.error(ex);
