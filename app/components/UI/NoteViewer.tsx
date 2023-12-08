@@ -1,23 +1,24 @@
 "use client";
 
-import { useState, useEffect, TextareaHTMLAttributes } from "react";
+import { useState, useEffect, useRef } from "react";
 import React from "react";
 import { Note } from "@/app/Types/Note";
 import Button from "./Button";
 import { deleteNote, updateNote } from "@/app/_services/notes-service";
 import { useUserAuth } from "@/app/_utils/auth-context";
 
-type Props = {
-  note: Note;
-  handleAddNote : Function,
-  setViewedNote: Function,
-  handleDeleteNode: Function,
-  display: String
-  setEditorVisible: Function,
 
+type Props = {
+    note: Note;
+    handleAddNote: Function
+    setViewedNote: Function;
+    handleDeleteNode: Function;
+    display: string;
+    setEditorVisible: Function;
+    titleRef: React.RefObject<HTMLInputElement>;
 };
 
-function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode, display, setEditorVisible}: Props) {
+function NoteViewer({ note, handleAddNote, setViewedNote, handleDeleteNode, display, setEditorVisible, titleRef }: Props) {
 
     console.log(display);
 
@@ -81,20 +82,21 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode, displ
                     title: title,
                     content: content,
                     date: date,
-                }
+                } 
             )
         }
         handleDeselect();
     }
 
-    function del()
-    { 
-        deleteNote(user, note);
-        setViewedNote();
-        setTitle("");
-        setContent("");
-        setDate(new Date()); 
-        handleDeleteNode(note)
+    function del() {
+        if(note) {
+            deleteNote(user, note);
+            setViewedNote(null);
+            setTitle("");
+            setContent("");
+            setDate(new Date()); 
+            handleDeleteNode(note);
+        }
     }
 
 
@@ -105,7 +107,7 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode, displ
     <div className={"flex-row gap-6 bg-black justify-center py-10 " + `${display}`}>
       <div  className="flex flex-col gap-3 ">
         <div className="flex flex-row justify-between ">
-          <input className="input input-bordered input-sm  max-w-xs" value={title} placeholder="Title" onChange={(e) => handleTitleChange(e)}></input>
+          <input ref={titleRef} className="input input-bordered input-sm  max-w-xs" value={title} placeholder="Title" required={true} onChange={(e) => handleTitleChange(e)}></input>
           <input type="date" className="input input-bordered input-sm " value={formatDate(date)} placeholder="Date" onChange={(e) => handleDateChange(e)}></input>
         </div>
        <textarea style={{minHeight: "25vh",minWidth:"50vw" }} className="textarea textarea-bordered textarea-lg w-full " placeholder="New Note" onChange={(e) => handleContentChange(e)} value={content}></textarea>
@@ -113,10 +115,9 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode, displ
       </div>
     
       <div className="py-2 flex flex-col justify-center gap-3">
-        <Button title="Delete" func={() => del()}></Button>
-        <Button title="Save" func={save}></Button>
-        <Button title="Deselect" func={() => handleDeselect()}/>
-        <Button title="Hide" func={() => setEditorVisible(false)}/>
+        <Button className="btn btn-active btn-info" title="Save" func={save}></Button>
+        <Button className="btn btn-active btn-error" title="Delete" func={() => del()}></Button>
+        {/* <Button title="Hide" func={() => setEditorVisible(false)}/> */}
       </div>
     </div>
   );

@@ -79,3 +79,23 @@ export async function deleteNote(user:User, note:Note) {
         console.log(ex);
     }
 }
+export async function deleteAllNotes(user:User) {
+    try{
+        const q = query(
+            collection(db, "users", user.uid, "notes")
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            deleteNote(user, {
+                id: doc.id, 
+                title: doc.data().title,
+                content: doc.data().content,
+                date: doc.data().date.toDate()
+            });
+        });
+    }
+    catch(ex :any)
+    {
+        console.log(ex);
+    }
+}
