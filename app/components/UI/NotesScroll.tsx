@@ -9,17 +9,21 @@ import { useUserAuth } from '@/app/_utils/auth-context';
 type Props = {
     notes : Note[],
     handleSetViewedNote : Function,
+    height: String,
+    scroll: String,
+    flex: String
 
 }
 
-function Sidebar ({notes, handleSetViewedNote}: Props) {
+function Sidebar ({notes, handleSetViewedNote, height, scroll, flex }: Props) {
 
     const {firebaseSignOut} = useUserAuth(); 
+    console.log(height);
 
     return (
-        <div style={{minHeight:"54vh",}} className='bg-neutral-content flex flex-row p-5 content-center flex-wrap overflow-x-scroll'>
+        <div style={{minHeight:"54vh", maxHeight:`${height}`}} className={'bg-neutral-content flex flex-row p-5 justify-center ' + `${scroll}`}>
             
-            <TabList handleSetViewedNote={handleSetViewedNote} notes={notes}></TabList>
+            <TabList flex={flex} handleSetViewedNote={handleSetViewedNote} notes={notes}></TabList>
             
            
         </div>

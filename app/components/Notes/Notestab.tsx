@@ -10,7 +10,7 @@ function Notestab ({note, onSetViewedNote} : Props) {
 
 
     return (
-        <li style={{minWidth: "15vw",minHeight:"50vh",flex:0}} className="btn rounded-large mx-2 flex flex-col justify-between" onClick={() => onSetViewedNote(note)}>
+        <li style={{minWidth: "15%",minHeight:"49vh",flex:0}} className="btn rounded-large mx-2 flex flex-col justify-between" onClick={() => onSetViewedNote(note)}>
             <div style={{minHeight:"10vh"}}>
                 <h2 className="text-left">{note.title.length > 25 ? note.title.substring(0, 25) + "..." : note.title }</h2>
             </div>

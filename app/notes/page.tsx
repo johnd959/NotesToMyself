@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Sidebar from "../components/UI/NotesScroll";
+import NotesScroll from "../components/UI/NotesScroll";
 import { Note } from "../Types/Note";
 import { useUserAuth } from "../_utils/auth-context";
 import NoteViewer from "../components/UI/NoteViewer";
@@ -22,6 +22,7 @@ export default function NotesPage()
       date: ""
     } //temp fix
     const [viewedNote, setViewedNote] = useState(tempNote);
+    const [editorVisible, setEditorVisible] = useState(true); 
 
 
       async function loadNotes()
@@ -74,11 +75,11 @@ export default function NotesPage()
                     <Button className='btn btn-neutral ' title="Sign Out" func={() => firebaseSignOut()}></Button>
                 </div>
             </div>
-            <Sidebar notes={notes} handleSetViewedNote={handleSetViewedNote}></Sidebar>
+            <NotesScroll flex={editorVisible == true? '' : "flex-wrap"} scroll={editorVisible == true ? "overflow-x-scroll" : "overflow-y-scroll"} notes={notes} handleSetViewedNote={handleSetViewedNote} height={editorVisible == true ? "54vh" : "87vh"}></NotesScroll>
            <section style={{maxHeight:"40vh"}}>
-            <NoteViewer note={viewedNote} handleAddNote={handleAddNote} setViewedNote={setViewedNote} handleDeleteNode={handleDeleteNote}></NoteViewer>
+            <NoteViewer setEditorVisible={setEditorVisible} display={editorVisible == true? "flex" : "hidden"} note={viewedNote} handleAddNote={handleAddNote} setViewedNote={setViewedNote} handleDeleteNode={handleDeleteNote}></NoteViewer>
            </section>
-          
+          {editorVisible == false? <Button className="sticky bottom-0" title="Edit Notes" func={() => setEditorVisible(true)}></Button> : <></>}
           </main>
         )
       }
