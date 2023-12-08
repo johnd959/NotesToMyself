@@ -1,7 +1,7 @@
 import { User } from "firebase/auth";
 import { db } from "../_utils/firebase";
 import { Note } from "../Types/Note";
-import { collection, getDocs, addDoc, query, doc, updateDoc, deleteDoc, Timestamp } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, doc, updateDoc, deleteDoc } from "firebase/firestore";
 
 
 
@@ -23,7 +23,7 @@ export async function getNotes(user : User)
                     id: doc.id, 
                     title: data.title,
                     content: data.content,
-                    date: data.date.toDate()
+                    date: data.date
                 }
             );
         });
