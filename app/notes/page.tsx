@@ -19,7 +19,7 @@ export default function NotesPage()
       id: "",
       title: "",
       content: "",
-      date: new Date(),
+      date: ""
     } //temp fix
     const [viewedNote, setViewedNote] = useState(tempNote);
     const [editorVisible, setEditorVisible] = useState(true); 
