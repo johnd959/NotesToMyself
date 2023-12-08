@@ -23,8 +23,11 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode, displ
 
     const [title, setTitle] = useState("")
     const [content , setContent] = useState("");
-    const [date, setDate] = useState("");
+    const [date, setDate] = useState(new Date());
     const {user} = useUserAuth(); 
+    function formatDate(date: Date) {
+        return date.toISOString().split('T')[0];
+    }
 
     useEffect(
         () => {
@@ -37,7 +40,7 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode, displ
             {
                 setTitle("");
                 setContent("");
-                setDate(""); 
+                setDate(new Date()); 
             }
         },
         [note]
@@ -54,7 +57,7 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode, displ
     }
     function handleDateChange(event: React.FormEvent<HTMLInputElement>)
     {
-        setDate(event.currentTarget.value);
+        setDate(new Date(event.currentTarget.value));
     }
     function handleDeselect()
     {
@@ -90,7 +93,7 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode, displ
         setViewedNote();
         setTitle("");
         setContent("");
-        setDate(""); 
+        setDate(new Date()); 
         handleDeleteNode(note)
     }
 
@@ -103,7 +106,7 @@ function NoteViewer({note, handleAddNote, setViewedNote, handleDeleteNode, displ
       <div  className="flex flex-col gap-3 ">
         <div className="flex flex-row justify-between ">
           <input className="input input-bordered input-sm  max-w-xs" value={title} placeholder="Title" onChange={(e) => handleTitleChange(e)}></input>
-          <input className="input input-bordered input-sm " value={date} placeholder="Date" onChange={(e) => handleDateChange(e)}></input>
+          <input type="date" className="input input-bordered input-sm " value={formatDate(date)} placeholder="Date" onChange={(e) => handleDateChange(e)}></input>
         </div>
        <textarea style={{minHeight: "25vh",minWidth:"50vw" }} className="textarea textarea-bordered textarea-lg w-full " placeholder="New Note" onChange={(e) => handleContentChange(e)} value={content}></textarea>
       
