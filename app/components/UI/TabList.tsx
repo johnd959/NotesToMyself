@@ -2,19 +2,20 @@ import { Note } from "@/app/Types/Note";
 import React from "react";
 import Notestab from "../Notes/Notestab";
 import AddNote from "./AddNote";
+import { maxHeaderSize } from "http";
 
 type Props = {
   notes: Note[];
   handleSetViewedNote: Function;
   handleAddNewNote: () => void;
   handleDeleteAllNotes: () => void;
-  flex: String
 };
 
 
-function TabList({ notes, handleSetViewedNote, flex}: Props) {
+function TabList({ notes, handleSetViewedNote}: Props) {
   return (
-    <ul className={"flex flex-1 flex-row gap-6 flex-wrap md:flex-nowrap " + `${flex}`}>
+    <ul className={"flex flex-1 p-5 max-w-full flex-col md:flex-row items-center gap-6 w-screen flex-wrap"}
+    >
       {notes.length > 0 ? 
         notes.map((Note) => 
             <Notestab

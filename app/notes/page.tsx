@@ -155,7 +155,7 @@ export default function NotesPage() {
     return (
       <main className="drawer">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col min-h-screen">
+        <div className="drawer-content flex flex-col">
           <div className="navbar bg-black px-5">
             <div className="flex-1 flex flex-row">
               <label htmlFor="my-drawer" className="btn bg-inherit border-none rounded-md">
@@ -255,15 +255,12 @@ export default function NotesPage() {
             </div>
           </div>
           <NotesScroll
-            flex={editorVisible == true ? "" : "flex-wrap"}
-            scroll={
-              editorVisible == true ? "overflow-x-scroll" : "overflow-y-scroll"
-            }
+            scroll={editorVisible? "overflow-y-scroll" : "overflow-y-scroll"}
             notes={notes}
             handleSetViewedNote={handleSetViewedNote}
             handleAddNewNote={handleAddNewNote}
             handleDeleteAllNotes={handleOpenDeleteModel}
-            height={editorVisible == true ? "54vh" : "85vh"}
+            height={editorVisible == true ? "50vh" : "100vh"}
           ></NotesScroll>
           {editorVisible == true ? (
             <Button

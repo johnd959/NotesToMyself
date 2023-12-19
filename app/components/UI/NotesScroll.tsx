@@ -6,13 +6,12 @@ import Button from "./Button";
 import { useUserAuth } from "@/app/_utils/auth-context";
 
 type Props = {
-  notes: Note[];
-  handleSetViewedNote: Function;
-  handleAddNewNote: () => void;
-  handleDeleteAllNotes: () => void;
-  height: String;
-  scroll: String;
-  flex: String;
+  notes: Note[],
+  handleSetViewedNote: Function,
+  handleAddNewNote: () => void,
+  handleDeleteAllNotes: () => void,
+  height: String,
+  scroll: String,
 };
 
 function Sidebar({
@@ -21,20 +20,18 @@ function Sidebar({
   handleAddNewNote,
   handleDeleteAllNotes,
   height,
-  scroll,
-  flex,
+  scroll
 }: Props) {
   const { firebaseSignOut } = useUserAuth();
 
   return (
     <div
-      style={{ minHeight: `${height}`}}
+      style={{ minHeight: `${height}`, maxHeight: `${height}`}}
       className={
-        "bg-neutral-content w-screen min-w-fit flex flex-row p-5 justify-center " + `${scroll}`
+        "bg-neutral-content w-screen min-w-fit " + `${scroll}`
       }
     >
       <TabList
-        flex={flex}
         handleAddNewNote={handleAddNewNote}
         handleSetViewedNote={handleSetViewedNote}
         handleDeleteAllNotes={handleDeleteAllNotes}
