@@ -128,7 +128,7 @@ function NoteViewer({
           onChange={(e) => handleDateChange(e)}
         ></input>
         <select className="select select-bordered max-w-xs md:max-w-none" value={folder} onChange={(e) => handleFolderSelect(e)}>
-            {folders.length > 0 && folders.map((folder) => <option value={folder.id}>{folder.name}</option>)}
+            {folders.length > 0 && folders.map((folder) => <option key={folder.id} value={folder.id}>{folder.name}</option>)}
             <option value="">None</option>
         </select>
       </div>
