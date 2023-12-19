@@ -12,10 +12,9 @@ type Props = {
 };
 
 
-function TabList({ notes, handleSetViewedNote, handleAddNewNote, handleDeleteAllNotes, flex}: Props) {
+function TabList({ notes, handleSetViewedNote, flex}: Props) {
   return (
-    <ul style={{maxWidth: "95%",}}className={"flex flex-1 flex-row gap-2 " + `${flex}`}>
-      <AddNote  handleAddNewNote={handleAddNewNote} handleDeleteAllNotes={handleDeleteAllNotes}/>
+    <ul className={"flex flex-1 flex-row gap-6 flex-wrap md:flex-nowrap " + `${flex}`}>
       {notes.length > 0 ? 
         notes.map((Note) => 
             <Notestab

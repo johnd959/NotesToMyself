@@ -54,7 +54,7 @@ export default function Home() {
   {
     return(
       <main className="flex flex-col justify-center items-center min-h-screen">
-        <div style={{minHeight: "40vh", minWidth: "20vw"}} className="flex flex-col justify-center gap-2 bg-black px-10 rounded-xl">
+        <div className="flex flex-col justify-center gap-2 bg-black p-10 rounded-xl">
           <h1 className="text-white text-center">Notes to Myself</h1>
           <Button icon={VscGithubAlt} className="btn-accent" title="Continue with GitHub" func={() => signInWithGitHub()}></Button>
           <Button icon={FaGoogle} className="btn-accent" title="Continue with Google" func={() => emailSignIn()}></Button>

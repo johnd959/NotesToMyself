@@ -25,13 +25,12 @@ function Sidebar({
   flex,
 }: Props) {
   const { firebaseSignOut } = useUserAuth();
-  console.log(height);
 
   return (
     <div
       style={{ minHeight: `${height}`}}
       className={
-        "bg-neutral-content flex flex-row p-5 justify-center " + `${scroll}`
+        "bg-neutral-content w-screen min-w-fit flex flex-row p-5 justify-center " + `${scroll}`
       }
     >
       <TabList

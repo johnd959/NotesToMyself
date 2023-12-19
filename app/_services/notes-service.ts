@@ -1,9 +1,19 @@
 import { User } from "firebase/auth";
 import { db } from "../_utils/firebase";
 import { Note } from "../Types/Note";
-import { collection, getDocs, addDoc, query, doc, updateDoc, deleteDoc, Timestamp } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, doc, updateDoc, deleteDoc, setDoc, deleteField, where } from "firebase/firestore";
+import { FocusEventHandler } from "react";
+import { Folder } from "../Types/Folder";
 
 
+// export async function createUser(user: User){
+//     try{
+//         const docRef = addDoc(collection(db, "users"), ); 
+//     }
+//     catch(ex:any){
+//         console.error(ex); 
+//     }
+// }
 
 export async function getNotes(user : User)
 {
@@ -23,7 +33,8 @@ export async function getNotes(user : User)
                     id: doc.id, 
                     title: data.title,
                     content: data.content,
-                    date: data.date.toDate()
+                    date: data.date.toDate(),
+                    folder: data.folder
                 }
             );
         });
@@ -36,6 +47,7 @@ export async function getNotes(user : User)
 
 }
 
+
 export async function updateNote(user: User, note: Note)
 {
     if(note && note.id.length !== 0)
@@ -45,7 +57,8 @@ export async function updateNote(user: User, note: Note)
             await updateDoc(docRef, {
                 title: note.title,
                 content: note.content,
-                date: note.date
+                date: note.date,
+                folder: note.folder
             }); 
         }
         catch(ex :any){
@@ -93,6 +106,70 @@ export async function deleteAllNotes(user:User) {
                 date: doc.data().date.toDate()
             });
         });
+    }
+    catch(ex :any)
+    {
+        console.log(ex);
+    }
+}
+
+export async function createFolder(user: User, folder: Folder)
+{
+    try{
+        const docRef = await addDoc(
+            collection(db, "users", user.uid, "folders"),
+            folder
+        )
+        console.log(docRef.id + " created.");
+        return docRef?.id;
+    }
+    catch(ex : any){
+        console.log(ex);
+    }
+}
+
+export async function getFolders(user : User)
+{
+    let folders:Folder[] = [];  
+    const q = query(
+        collection(db, "users", user.uid, "folders")
+    );
+    
+
+    try{
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+
+            let data = doc.data(); 
+            folders.push(
+                {
+                    id: doc.id, 
+                    name: data.name,
+                }
+            );
+        });
+    }
+    catch(ex : any){
+        console.log(ex); 
+    }
+    
+    return folders; 
+
+}
+
+export async function deleteFolder(user:User, folder:Folder) {
+    try{
+        const docRef = doc(db, "users", user.uid, "folders", folder.id);
+        await deleteDoc(docRef);
+        const q = query(
+            collection(db, "users", user.uid, "notes"),
+            where("folder", "==", folder.id )
+        );
+
+        const querySnapshot = await getDocs(q); 
+        querySnapshot.forEach(async (document) => await updateDoc(doc(db, "users", user.uid, "notes", document.id), {
+            folder: deleteField()
+        })); 
     }
     catch(ex :any)
     {
