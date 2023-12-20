@@ -7,39 +7,27 @@ import { Folder } from "@/app/Types/Folder";
 import { createFolder, getFolders } from "@/app/_services/notes-service";
 import { useUserAuth } from "@/app/_utils/auth-context";
 import SideList from "./SideList";
+import { useNotesContext } from "@/app/_utils/note-context";
+import { useFoldersContext } from "@/app/_utils/folder-context";
 
 type Props = {
-  folderList: Folder[],
-  setFolders: Function,
-  filterByFolder: Function,
-  handleDeleteFolder: Function, 
+  toggleDrawer: Function,
+
 };
 
 export default function Folders({
-  folderList,
-  setFolders,
-  filterByFolder,
-  handleDeleteFolder,
+  toggleDrawer,
 }: Props) {
   const { user } = useUserAuth();
   const [folderName, setFolderName]: [string, Function] = useState("");
+  const {handleFilterByFolder, endFilter}:{handleFilterByFolder:Function, endFilter:Function} = useNotesContext(); 
+  const {folders, handleCreateFolder, handleDeleteFolder}:{folders:Folder[], handleCreateFolder:Function, handleDeleteFolder:Function} = useFoldersContext(); 
 
   function handleNameChange(e: FormEvent<HTMLInputElement>) {
     setFolderName(e.currentTarget.value);
   }
 
-  async function handleCreateFolder() {
-    let newFolder = {
-      id: "",
-      name: folderName,
-    };
-    let id = await createFolder(user, newFolder);
-    if (id) {
-      newFolder.id = id;
-    }
-    setFolders([...folderList, newFolder]);
-    setFolderName("");
-  }
+
 
   return (
     <div className="flex flex-col justify-between min-h-full">
@@ -59,9 +47,9 @@ export default function Folders({
             className="hover:rotate-12"
           />
         </div>
-        <SideList handleDelete={handleDeleteFolder} setFilter={filterByFolder} tabList={folderList}></SideList>
+        <SideList toggleDrawer={toggleDrawer} handleDelete={handleDeleteFolder} setFilter={handleFilterByFolder} tabList={folders}></SideList>
       </div>
-      <Button func={() => filterByFolder("", false)} title="End Filter"></Button>
+      <Button func={() => {endFilter(); toggleDrawer();}} title="All Notes"></Button>
     </div>
   );
 }

@@ -8,16 +8,15 @@ import { VscSignOut } from "react-icons/vsc";
 import { useUserAuth } from "@/app/_utils/auth-context";
 
  type Props = {
-    foldersPackage: {folders:Folder[], setFolders: Function, handleDeleteFolder: Function},
     groupsPackage?: {groups:Group[], setGroups:Function},
-    filterByFolder: Function,
+    toggleDrawer: Function,
 
 
  }
 
 
 
-export default function Sidebar({foldersPackage, groupsPackage, filterByFolder}:Props){
+export default function Sidebar({groupsPackage, toggleDrawer}:Props){
 
     const [selectedTab, setSelectedTab]:[Boolean, Function] = useState(true);
     const {firebaseSignOut} = useUserAuth();
@@ -34,7 +33,7 @@ export default function Sidebar({foldersPackage, groupsPackage, filterByFolder}:
 
         </ul>
         <div className="w-60 text-white p-4">
-            {selectedTab? <Folders filterByFolder={filterByFolder} folderList={foldersPackage.folders} setFolders={foldersPackage.setFolders} handleDeleteFolder={foldersPackage.handleDeleteFolder}  /> : <h2 className="text-lg">Groups</h2>}
+            {selectedTab? <Folders toggleDrawer={toggleDrawer} /> : <h2 className="text-lg">Groups</h2>}
         </div>
       </div>
     )

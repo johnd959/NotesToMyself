@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Sidebar from './components/UI/NotesScroll';
 import {AuthContextProvider} from './_utils/auth-context';
+import {NoteContextProvider} from './_utils/note-context.js'
+import { FolderContextProvider } from './_utils/folder-context';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +22,11 @@ export default function RootLayout({
     <html lang="en" >
       <body>
         <AuthContextProvider>
-        {children}
+          <NoteContextProvider>
+            <FolderContextProvider>
+              {children}
+            </FolderContextProvider>
+          </NoteContextProvider>
         </AuthContextProvider>
         </body>
     </html>

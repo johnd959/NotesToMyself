@@ -17,13 +17,13 @@ import {
 } from "../_services/notes-service";
 import Button from "../components/UI/Button";
 import Sidebar from "../components/UI/Sidebar";
+import { useNotesContext } from "../_utils/note-context";
+import {useFoldersContext} from '../_utils/folder-context'
 
 export default function NotesPage() {
   const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
-  let noteList: Note[] = [];
-  let folderList: Folder[] = []; 
-  const [folders, setFolders] = useState(folderList); 
-  const [notes, setNotes] = useState(noteList);
+  const {notes, setNotes, handleSearchNotes, handleAddNote, endFilter}:{notes:Note[], setNotes:Function, handleSearchNotes:Function, handleAddNote:Function, endFilter:Function} = useNotesContext();
+  const {folders}:{folders:Folder[]} = useFoldersContext(); 
   let tempNote: Note = {
     id: "",
     title: "",
@@ -34,36 +34,20 @@ export default function NotesPage() {
   const [editorVisible, setEditorVisible] = useState(true);
   const [searchedTitle, setSearchedTitle] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState();
+  const [isDrawerClosed, setDrawerClosed] = useState(false); 
 
-  async function loadAndSetFirstNote() {
+  async function SetFirstNote() {
     try {
-      let items = await getNotes(user);
-      items.sort((a, b) => b.date.getTime() - a.date.getTime());
-      setNotes(items);
-
-      if (items.length > 0) {
-        setViewedNote(items[0]);
+      if (notes.length > 0) {
+        setViewedNote(notes[0]);
       }
     } catch (ex) {
       console.error(ex);
     }
   }
 
-  async function handleGetFolders(){
-    try{
-        let folders:Folder[] = await getFolders(user); 
-        setFolders(folders); 
-    }
-    catch(ex:any){
-        console.error(ex); 
-    }
-}
-
   useEffect(() => {
-    loadAndSetFirstNote();
-    handleGetFolders();
-    console.log(folders);
+    SetFirstNote(); 
   }, [user]);
 
   function handleSetViewedNote(note: Note) {
@@ -71,35 +55,12 @@ export default function NotesPage() {
     setEditorVisible(true);
   }
 
-  async function handleAddNote(note: Note) {
-    let id = await createNote(user, note);
-    if (id) {
-      note.id = id;
-    }
-
-    let newNotes = [...notes, note];
-
-    newNotes.sort((a, b) => b.date.getTime() - a.date.getTime());
-
-    setNotes(newNotes);
-
-    setViewedNote(note);
-  }
-
-  function handleDeleteNote(note: Note) {
-    setNotes(notes.filter((item: Note) => item.id != note.id));
-  }
-
   const titleRef = useRef<HTMLInputElement>(null);
 
   const focusTitleInput = () => {
     titleRef.current?.focus();
   };
-  function handleAddNewNote() {
-    setViewedNote(tempNote);
-    setEditorVisible(true);
-    focusTitleInput();
-  }
+
   function handleOpenDeleteModel() {
     const modal = document.getElementById("my_modal_5");
     if (modal instanceof HTMLDialogElement) {
@@ -119,11 +80,7 @@ export default function NotesPage() {
     setSearchedTitle(event.currentTarget.value);
   }
   function handleSearchNote() {
-    setNotes((previousNotes) => {
-      return previousNotes.filter((note) =>
-        note.title.toLowerCase().includes(searchedTitle.toLowerCase())
-      );
-    });
+    handleSearchNotes(searchedTitle); 
     setIsSearchActive(true);
     const modal = document.getElementById("my_modal_4");
     if (modal instanceof HTMLDialogElement) {
@@ -131,30 +88,23 @@ export default function NotesPage() {
     }
   }
   function handleEndSearch() {
-    loadAndSetFirstNote();
+    endFilter(); 
     setIsSearchActive(false);
     setSearchedTitle("");
   }
 
-  function handleFilterByFolder(folder:string, filter:boolean){
-    if(filter){
-      setNotes(notes.filter((note) => note.folder == folder));
-    }
-    else{
-      loadAndSetFirstNote(); 
+  function toggleDrawer(){
+    if(isDrawerClosed){
+      setDrawerClosed(false);
+    }else{
+      setDrawerClosed(true); 
     }
   }
-
-  async function handleDeleteFolder(folder:Folder){
-    await deleteFolder(user, folder); 
-    setFolders(folders.filter((item) => item.id != folder.id)); 
-  }
-
  
   if (user) { 
     return (
       <main className="drawer">
-        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+        <input id="my-drawer" type="checkbox" className="drawer-toggle" checked={isDrawerClosed} onClick={() => toggleDrawer()} />
         <div className="drawer-content flex flex-col">
           <div className="navbar bg-black px-5">
             <div className="flex-1 flex flex-row">
@@ -256,9 +206,7 @@ export default function NotesPage() {
           </div>
           <NotesScroll
             scroll={editorVisible? "overflow-y-scroll" : "overflow-y-scroll"}
-            notes={notes}
             handleSetViewedNote={handleSetViewedNote}
-            handleAddNewNote={handleAddNewNote}
             handleDeleteAllNotes={handleOpenDeleteModel}
             height={editorVisible == true ? "50vh" : "100vh"}
           ></NotesScroll>
@@ -273,12 +221,9 @@ export default function NotesPage() {
           )}
           <section>
             <NoteViewer
-              setEditorVisible={setEditorVisible}
+              setViewedNote={setViewedNote}
               display={editorVisible == true ? "flex" : "hidden"}
               note={viewedNote}
-              handleAddNote={handleAddNote}
-              setViewedNote={setViewedNote}
-              handleDeleteNode={handleDeleteNote}
               titleRef={titleRef}
               folders={folders}
             ></NoteViewer>
@@ -299,7 +244,9 @@ export default function NotesPage() {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <Sidebar filterByFolder={handleFilterByFolder} foldersPackage={{folders: folders, setFolders: setFolders, handleDeleteFolder: handleDeleteFolder}}></Sidebar>
+          <Sidebar
+          toggleDrawer={toggleDrawer}
+          ></Sidebar>
         </div>
       </main>
     );

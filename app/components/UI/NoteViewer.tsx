@@ -7,25 +7,20 @@ import Button from "./Button";
 import { deleteNote, updateNote } from "@/app/_services/notes-service";
 import { useUserAuth } from "@/app/_utils/auth-context";
 import { Folder } from "@/app/Types/Folder";
+import { useNotesContext } from "@/app/_utils/note-context";
 
 type Props = {
   note: Note;
-  handleAddNote: Function;
-  setViewedNote: Function;
-  setEditorVisible: Function,
-  handleDeleteNode: Function;
-  display: string;
+  setViewedNote: Function,
+  display: string,
   folders: Folder[],
-  titleRef: React.RefObject<HTMLInputElement>;
+  titleRef: React.RefObject<HTMLInputElement>,
 };
 
 function NoteViewer({
   note,
-  handleAddNote,
-  setViewedNote,
-  handleDeleteNode,
-  setEditorVisible,
   display,
+  setViewedNote,
   folders,
   titleRef,
 }: Props) {
@@ -35,6 +30,7 @@ function NoteViewer({
   const [date, setDate] = useState(new Date());
   const [folder, setFolder]:[string, Function] = useState(""); 
   const { user } = useUserAuth();
+  const {handleAddNote, handleDeleteNote} = useNotesContext(); 
   function formatDate(date: Date) {
     return date.toISOString().split("T")[0];
   }
@@ -81,25 +77,34 @@ function NoteViewer({
       note.date = date;
       note.folder = folder; 
       updateNote(user, note);
+      handleDeselect();
     } else {
-      handleAddNote({
-        title: title,
-        content: content,
-        date: date,
-        folder: folder,
-      });
+      if(title !== ""){
+        handleAddNote({
+          title: title,
+          content: content,
+          date: date,
+          folder: folder,
+        });
+        setTitle("");
+        setContent("");
+        setDate(new Date());
+        setFolder(null);
+      }else{
+        alert("No note was created, please add a title at the least"); 
+      }
     }
-    handleDeselect();
+    
   }
 
   function del() {
     if (note) {
-      deleteNote(user, note);
+      handleDeleteNote(note);
       setViewedNote(null);
       setTitle("");
       setContent("");
       setDate(new Date());
-      handleDeleteNode(note);
+      setFolder(null); 
     }
   }
 

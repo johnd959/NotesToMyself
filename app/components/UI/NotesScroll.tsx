@@ -4,25 +4,23 @@ import { Note } from "../../Types/Note";
 import RootLayout from "@/app/layout";
 import Button from "./Button";
 import { useUserAuth } from "@/app/_utils/auth-context";
+import { useNotesContext } from "@/app/_utils/note-context";
 
 type Props = {
-  notes: Note[],
   handleSetViewedNote: Function,
-  handleAddNewNote: () => void,
   handleDeleteAllNotes: () => void,
   height: String,
   scroll: String,
 };
 
 function Sidebar({
-  notes,
   handleSetViewedNote,
-  handleAddNewNote,
   handleDeleteAllNotes,
   height,
   scroll
 }: Props) {
   const { firebaseSignOut } = useUserAuth();
+  const {notes}:{notes:Note[]} = useNotesContext(); 
 
   return (
     <div
@@ -32,7 +30,6 @@ function Sidebar({
       }
     >
       <TabList
-        handleAddNewNote={handleAddNewNote}
         handleSetViewedNote={handleSetViewedNote}
         handleDeleteAllNotes={handleDeleteAllNotes}
         notes={notes}

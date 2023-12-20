@@ -5,10 +5,9 @@ import AddNote from "./AddNote";
 import { maxHeaderSize } from "http";
 
 type Props = {
-  notes: Note[];
-  handleSetViewedNote: Function;
-  handleAddNewNote: () => void;
-  handleDeleteAllNotes: () => void;
+  notes: Note[],
+  handleSetViewedNote: Function,
+  handleDeleteAllNotes: () => void,
 };
 
 
