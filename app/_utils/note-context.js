@@ -33,11 +33,8 @@ export function NoteContextProvider({children}){
           note.id = id;
         }
     
-        let newNotes = [...notes, note];
-    
-        newNotes.sort((a, b) => b.date.getTime() - a.date.getTime());
-    
-        setNotes(newNotes);
+        setOriginalNotes([...originalNotes, note].sort((a, b) => b.date.getTime() - a.date.getTime()));
+        setNotes([...notes, note].sort((a, b) => b.date.getTime() - a.date.getTime()))
       }
 
     async function handleDeleteNote(note){
