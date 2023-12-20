@@ -144,7 +144,7 @@ function NoteViewer({
       ></textarea>
       <div className="flex flex-row sm:flex-col justify-center sm:justify-start gap-2 ">
       <Button
-        className="btn btn-outline btn-accent max-w-xs md:max-w-none flex-1"
+        className="btn btn-outline btn-primary max-w-xs md:max-w-none flex-1"
         title="Save"
         func={save}
       ></Button>

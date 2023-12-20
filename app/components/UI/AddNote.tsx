@@ -13,7 +13,7 @@ function AddNote({ handleAddNewNote, handleDeleteAllNotes }: Props) {
     <div className="flex flex-col gap-2">
       {/* <li
         style={{ minWidth: "27.6vh", minHeight: "24.5vh", flex: 0 }}
-        className="btn btn-active btn-accent rounded-large mx-2 flex flex-col justify-between p-5"
+        className="btn btn-active btn-primary rounded-large mx-2 flex flex-col justify-between p-5"
         onClick={handleAddNewNote}
       >
         <div
@@ -35,7 +35,7 @@ function AddNote({ handleAddNewNote, handleDeleteAllNotes }: Props) {
           Delete all notes
         </div>
       </li> */}
-      <Button className="btn-accent" title="Add a note" func={handleAddNewNote}></Button>
+      <Button className="btn-primary" title="Add a note" func={handleAddNewNote}></Button>
       <Button className="btn-error" title="Delete all notes" func={handleDeleteAllNotes}></Button>
     </div>
   );

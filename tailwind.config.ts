@@ -14,6 +14,11 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
+    colors: {
+      'AppPurple': '#51466e',
+      'black': '#000000',
+      'white': '#ffffff',
+    }
   },
   plugins:[require("daisyui")],
 }
