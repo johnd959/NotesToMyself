@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, ChangeEvent } from "react";
 import NotesScroll from "../components/UI/NotesScroll";
 import { Note } from "../Types/Note";
 import { Folder } from "../Types/Folder";
@@ -22,15 +22,8 @@ import {useFoldersContext} from '../_utils/folder-context'
 
 export default function NotesPage() {
   const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
-  const {notes, setNotes, handleSearchNotes, handleAddNote, endFilter}:{notes:Note[], setNotes:Function, handleSearchNotes:Function, handleAddNote:Function, endFilter:Function} = useNotesContext();
-  const {folders}:{folders:Folder[]} = useFoldersContext(); 
-  let tempNote: Note = {
-    id: "",
-    title: "",
-    content: "",
-    date: new Date(),
-  }; //temp fix
-  const [viewedNote, setViewedNote] = useState(tempNote);
+  const {notes, setNotes, handleSearchNotes, handleAddNote, endFilter, viewedNote, setViewedNote} = useNotesContext();
+  const {folders, selectedFolder} = useFoldersContext(); 
   const [editorVisible, setEditorVisible] = useState(true);
   const [searchedTitle, setSearchedTitle] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
@@ -90,14 +83,15 @@ export default function NotesPage() {
   if (user) { 
     return (
       <main className="drawer">
-        <input id="my-drawer" type="checkbox" className="drawer-toggle" checked={isDrawerClosed} onClick={() => toggleDrawer()} />
+        <input id="my-drawer" type="checkbox" className="drawer-toggle" checked={isDrawerClosed} onChange={() => toggleDrawer()} />
         <div className="drawer-content flex flex-col">
           <div className="navbar bg-black px-5">
-            <div className="flex-1 flex flex-row">
-              <label htmlFor="my-drawer" className="btn bg-inherit border-none rounded-md">
+            <div className="flex-1 flex flex-row gap-2 items-center">
+              <label htmlFor="my-drawer" className="bg-inherit border-none rounded-md transition-colors cursor-pointer hover:bg-primary ease-in-out duration-300">
                 <VscMenu color="white" size={25} />
               </label>
               <a className=" text-xl text-white">Notes to Myself</a>
+              <div className="badge badge-primary rounded-md">{selectedFolder? selectedFolder.name : "All Notes"}</div>
             </div>
             <div className="md:flex flex-row gap-2 hidden">
               {/* <select className="select select-bordered w-full max-w-xs">
@@ -117,7 +111,7 @@ export default function NotesPage() {
               )}
               {!isSearchActive && (
                 <button
-                  className="btn btn-accent"
+                  className="btn btn-primary"
                   onClick={() => {
                     const modal = document.getElementById("my_modal_4");
                     if (modal instanceof HTMLDialogElement) {
@@ -139,7 +133,7 @@ export default function NotesPage() {
                   ></input>
                   <div className="flex flex-row space-x-3">
                     <button
-                      className="btn btn-accent"
+                      className="btn btn-primary"
                       onClick={handleSearchNote}
                     >
                       Search
@@ -170,7 +164,7 @@ export default function NotesPage() {
                       Delete
                     </button>
                     <button
-                      className="btn btn-accent"
+                      className="btn btn-primary"
                       onClick={() => {
                         const modal = document.getElementById("my_modal_5");
                         if (modal instanceof HTMLDialogElement) {
@@ -184,7 +178,7 @@ export default function NotesPage() {
                 </div>
               </dialog>
               <Button
-                className="btn btn-accent"
+                className="btn btn-primary"
                 title="Sign Out"
                 func={() => firebaseSignOut()}
               ></Button>
@@ -198,7 +192,7 @@ export default function NotesPage() {
           ></NotesScroll>
           {editorVisible == true ? (
             <Button
-              className="sticky rounded-none bottom-0 bg-base-300 btn btn-outline btn-accent"
+              className="sticky rounded-none bottom-0 bg-base-300 btn btn-outline btn-primary"
               title="Show More"
               func={() => setEditorVisible(false)}
             ></Button>
@@ -207,16 +201,14 @@ export default function NotesPage() {
           )}
           <section>
             <NoteViewer
-              setViewedNote={setViewedNote}
               display={editorVisible == true ? "flex" : "hidden"}
-              note={viewedNote}
               titleRef={titleRef}
               folders={folders}
             ></NoteViewer>
           </section>
           {editorVisible == false ? (
             <Button
-              className="sticky bottom-0 btn btn-accent"
+              className="sticky bottom-0 btn btn-primary"
               title="Edit Notes"
               func={() => setEditorVisible(true)}
             ></Button>

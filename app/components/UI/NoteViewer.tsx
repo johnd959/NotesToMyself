@@ -10,21 +10,18 @@ import { Folder } from "@/app/Types/Folder";
 import { useNotesContext } from "@/app/_utils/note-context";
 
 type Props = {
-  note: Note;
-  setViewedNote: Function,
   display: string,
   folders: Folder[],
   titleRef: React.RefObject<HTMLInputElement>,
 };
 
 function NoteViewer({
-  note,
   display,
-  setViewedNote,
   folders,
   titleRef,
 }: Props) {
 
+  const {viewedNote, setViewedNote} = useNotesContext(); 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [date, setDate] = useState(new Date());
@@ -36,12 +33,12 @@ function NoteViewer({
   }
 
   useEffect(() => {
-    if (note) {
-      setTitle(note.title);
-      setContent(note.content);
-      setDate(note.date);
-      if(note.folder){
-        setFolder(note.folder);         
+    if (viewedNote) {
+      setTitle(viewedNote.title);
+      setContent(viewedNote.content);
+      setDate(viewedNote.date);
+      if(viewedNote.folder){
+        setFolder(viewedNote.folder);         
       }
       else{
         setFolder(""); 
@@ -52,7 +49,7 @@ function NoteViewer({
       setDate(new Date());
       setFolder("");
     }
-  }, [note]);
+  }, [viewedNote]);
 
   function handleContentChange(event: React.FormEvent<HTMLTextAreaElement>) {
     setContent(event.currentTarget.value);
@@ -71,14 +68,14 @@ function NoteViewer({
   }
 
   function save() {
-    if (note && note.id) {
-      note.title = title;
-      note.content = content;
-      note.date = date;
-      note.folder = folder; 
-      updateNote(user, note);
+    if (viewedNote && viewedNote.id && (viewedNote.title != title || viewedNote.content != content || viewedNote.date != date || viewedNote.folder != folder)) {
+      viewedNote.title = title;
+      viewedNote.content = content;
+      viewedNote.date = date;
+      viewedNote.folder = folder; 
+      updateNote(user, viewedNote);
       handleDeselect();
-    } else {
+    } else if(viewedNote.id == null) {
       if(title !== ""){
         handleAddNote({
           title: title,
@@ -89,22 +86,24 @@ function NoteViewer({
         setTitle("");
         setContent("");
         setDate(new Date());
-        setFolder(null);
+        setFolder("");
       }else{
         alert("No note was created, please add a title at the least"); 
       }
+    }else{
+      handleDeselect(); 
     }
     
   }
 
   function del() {
-    if (note) {
-      handleDeleteNote(note);
+    if (viewedNote) {
+      handleDeleteNote(viewedNote);
       setViewedNote(null);
       setTitle("");
       setContent("");
       setDate(new Date());
-      setFolder(null); 
+      setFolder(""); 
     }
   }
 

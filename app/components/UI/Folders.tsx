@@ -21,7 +21,7 @@ export default function Folders({
   const { user } = useUserAuth();
   const [folderName, setFolderName]: [string, Function] = useState("");
   const {handleFilterByFolder, endFilter}:{handleFilterByFolder:Function, endFilter:Function} = useNotesContext(); 
-  const {folders, handleCreateFolder, handleDeleteFolder}:{folders:Folder[], handleCreateFolder:Function, handleDeleteFolder:Function} = useFoldersContext(); 
+  const {folders, handleCreateFolder, handleDeleteFolder, setSelectedFolder} = useFoldersContext(); 
 
   function handleNameChange(e: FormEvent<HTMLInputElement>) {
     setFolderName(e.currentTarget.value);
@@ -43,13 +43,13 @@ export default function Folders({
           ></input>
           <IconButton
             Icon={VscAdd}
-            func={handleCreateFolder}
+            func={() => handleCreateFolder(folderName)}
             className="hover:rotate-12"
           />
         </div>
-        <SideList toggleDrawer={toggleDrawer} handleDelete={handleDeleteFolder} setFilter={handleFilterByFolder} tabList={folders}></SideList>
+        <SideList toggleDrawer={toggleDrawer} handleDelete={handleDeleteFolder} setFilter={(tab:Folder) => {handleFilterByFolder(tab); setSelectedFolder(tab)}} tabList={folders}></SideList>
       </div>
-      <Button func={() => {endFilter(); toggleDrawer();}} title="All Notes"></Button>
+      <Button func={() => {endFilter(); setSelectedFolder(""); toggleDrawer();}} title="All Notes"></Button>
     </div>
   );
 }

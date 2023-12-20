@@ -11,6 +11,7 @@ export function FolderContextProvider({children}){
 
     const {user} = useUserAuth(); 
     const [folders, setFolders] = useState([]);
+    const [selectedFolder, setSelectedFolder] = useState("");
 
     async function handleGetFolders(){
         try{
@@ -41,7 +42,6 @@ export function FolderContextProvider({children}){
 
     async function handleCreateFolder(folderName) {
         let newFolder = {
-          id: "",
           name: folderName,
         };
         let id = await createFolder(user, newFolder);
@@ -54,7 +54,7 @@ export function FolderContextProvider({children}){
 
 
     return(
-        <FolderContext.Provider value={{folders, handleCreateFolder, handleDeleteFolder}}>
+        <FolderContext.Provider value={{folders, selectedFolder, setSelectedFolder, handleCreateFolder, handleDeleteFolder}}>
             {children}
         </FolderContext.Provider>
     )

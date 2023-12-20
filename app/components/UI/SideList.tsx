@@ -13,7 +13,7 @@ type Props = {
 export default function SideList({tabList, setFilter, handleDelete, toggleDrawer}:Props){
     return(
         <ul className="flex flex-col gap-2 py-2 overflow-auto max-h-screen">
-            {tabList.length > 0 && tabList.map((tab) => <FolderTab handleDelete={handleDelete} func={() => {setFilter(tab.id); toggleDrawer();}} key={tab.id} tab={tab}></FolderTab>)}
+            {tabList.length > 0 && tabList.map((tab) => <FolderTab handleDelete={handleDelete} func={() => {setFilter(tab); toggleDrawer();}} key={tab.id} tab={tab}></FolderTab>)}
         </ul>
     )
 }

@@ -22,11 +22,11 @@ export default function RootLayout({
     <html lang="en" >
       <body>
         <AuthContextProvider>
+          <FolderContextProvider>
           <NoteContextProvider>
-            <FolderContextProvider>
               {children}
-            </FolderContextProvider>
-          </NoteContextProvider>
+          </NoteContextProvider>            
+          </FolderContextProvider>
         </AuthContextProvider>
         </body>
     </html>

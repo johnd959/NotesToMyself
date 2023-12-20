@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getNotes, createNote, deleteNote } from "../_services/notes-service";
 import { useUserAuth } from "./auth-context";
+import { useFoldersContext } from "./folder-context";
 
 
 const NotesContext = createContext(); 
@@ -9,6 +10,7 @@ const NotesContext = createContext();
 export function NoteContextProvider({children}){
     const [notes, setNotes] = useState([]); 
     const [originalNotes, setOriginalNotes] = useState([]); 
+    const [viewedNote, setViewedNote] = useState(null);
     const [filter, setFilter] = useState(false); 
     const {user} = useUserAuth(); 
 
@@ -50,28 +52,37 @@ export function NoteContextProvider({children}){
     }
 
     function handleFilterByFolder(folder){
-        if(!filter){
+        if(!filter && folder.id !== ""){
           setFilter(true); 
-          setNotes(notes.filter((note) => note.folder == folder));
+          setNotes(notes.filter((note) => note.folder == folder.id));
         }
         else{
-            setNotes(originalNotes.filter((note) => note.folder == folder));
+            setNotes(originalNotes.filter((note) => note.folder == folder.id));
         }
       }
 
     function endFilter(){
-        setFilter(false);
+        setFilter(false); 
         setNotes(originalNotes); 
     }
+
+    let tempNote = {
+        id: "",
+        title: "",
+        content: "",
+        date: new Date(),
+      }; 
 
     useEffect(
         () => {
             handleLoadNotes();
+            setViewedNote(tempNote); 
         },
         [user]
     )
+
     return(
-        <NotesContext.Provider value={{notes, handleLoadNotes, handleSearchNotes, handleFilterByFolder, endFilter, handleAddNote, handleDeleteNote}}>
+        <NotesContext.Provider value={{notes, viewedNote, handleLoadNotes, handleFilterByFolder, handleSearchNotes, endFilter, handleAddNote, handleDeleteNote, setViewedNote}}>
             {children}
         </NotesContext.Provider>
     )

@@ -74,7 +74,6 @@ export async function createNote(user: User, note: Note)
             collection(db, "users", user.uid, "notes"),
             note
         )
-        console.log(docRef.id + " created.");
         return docRef?.id;
     }
     catch(ex : any){
@@ -120,7 +119,6 @@ export async function createFolder(user: User, folder: Folder)
             collection(db, "users", user.uid, "folders"),
             folder
         )
-        console.log(docRef.id + " created.");
         return docRef?.id;
     }
     catch(ex : any){
