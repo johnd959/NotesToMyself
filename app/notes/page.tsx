@@ -36,20 +36,6 @@ export default function NotesPage() {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isDrawerClosed, setDrawerClosed] = useState(false); 
 
-  async function SetFirstNote() {
-    try {
-      if (notes.length > 0) {
-        setViewedNote(notes[0]);
-      }
-    } catch (ex) {
-      console.error(ex);
-    }
-  }
-
-  useEffect(() => {
-    SetFirstNote(); 
-  }, [user]);
-
   function handleSetViewedNote(note: Note) {
     setViewedNote(note);
     setEditorVisible(true);
