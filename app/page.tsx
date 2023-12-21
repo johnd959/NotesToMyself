@@ -16,7 +16,7 @@ export default function Home() {
 
 
   const {emailSignIn} = useUserAuth(); 
-  const { user, gitHubSignIn, firebaseSignOut} = useUserAuth();
+  const { user, gitHubSignIn, firebaseSignOut, signIn} = useUserAuth();
 
   async function signInWithGitHub()
   {
@@ -56,6 +56,11 @@ export default function Home() {
       <main className="flex flex-col justify-center items-center min-h-screen">
         <div className="flex flex-col justify-center gap-2 bg-black p-10 rounded-xl">
           <h1 className="text-center text-white mb-5 text-lg">Notes to Myself</h1>
+          <div className="flex flex-col gap-2">
+            <input type="email" placeholder="Email" className="input input-sm"></input>
+            <input type="password" placeholder="Password" className="input input-sm"></input>
+            <Button title="Sign In" func={() => signIn("example@notestomyself.com", "United!")}></Button>
+          </div>
           <Button icon={VscGithubAlt} className="btn-primary" title="Continue with GitHub" func={() => signInWithGitHub()}></Button>
           <Button icon={FaGoogle} className="btn-primary" title="Continue with Google" func={() => emailSignIn()}></Button>
         </div>
