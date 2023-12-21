@@ -19,7 +19,6 @@ export function NoteContextProvider({children}){
             if(user){
             let items = await getNotes(user);
             items.sort((a, b) => b.date.getTime() - a.date.getTime());
-            setNotes(items);
             setOriginalNotes(items);
             }
 
@@ -36,12 +35,11 @@ export function NoteContextProvider({children}){
         }
     
         setOriginalNotes([...originalNotes, note].sort((a, b) => b.date.getTime() - a.date.getTime()));
-        setNotes([...notes, note].sort((a, b) => b.date.getTime() - a.date.getTime()))
       }
 
     async function handleDeleteNote(note){
         await deleteNote(user, note)
-        setNotes(notes.filter((item) => item.id != note.id));
+        setOriginalNotes(originalNotes.filter((item) => item.id != note.id))
     }
 
     function handleSearchNotes(searchedTitle){
@@ -66,19 +64,18 @@ export function NoteContextProvider({children}){
         setNotes(originalNotes); 
     }
 
-    let tempNote = {
-        id: "",
-        title: "",
-        content: "",
-        date: new Date(),
-      }; 
-
     useEffect(
         () => {
             handleLoadNotes();
-            setViewedNote(tempNote); 
         },
         [user]
+    )
+
+    useEffect(
+        () => {
+            setNotes(originalNotes);
+        },
+        [originalNotes]
     )
 
     return(

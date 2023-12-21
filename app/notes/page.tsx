@@ -14,6 +14,7 @@ import {
   deleteAllNotes,
   getFolders,
   deleteFolder,
+  updateFolder,
 } from "../_services/notes-service";
 import Button from "../components/UI/Button";
 import Sidebar from "../components/UI/Sidebar";
@@ -23,21 +24,23 @@ import {useFoldersContext} from '../_utils/folder-context'
 export default function NotesPage() {
   const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
   const {notes, setNotes, handleSearchNotes, handleAddNote, endFilter, viewedNote, setViewedNote} = useNotesContext();
-  const {folders, selectedFolder} = useFoldersContext(); 
+  const {selectedFolder} = useFoldersContext(); 
   const [editorVisible, setEditorVisible] = useState(true);
   const [searchedTitle, setSearchedTitle] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isDrawerClosed, setDrawerClosed] = useState(false); 
+  const [folderName, setFoldername] = useState("");
+  const [nameChange, setNameChange] = useState(false); 
 
   function handleSetViewedNote(note: Note) {
     setViewedNote(note);
     setEditorVisible(true);
   }
 
-  const titleRef = useRef<HTMLInputElement>(null);
+  const badgeRef = useRef<HTMLInputElement>(null);
 
   const focusTitleInput = () => {
-    titleRef.current?.focus();
+    badgeRef.current?.focus(); 
   };
 
   function handleOpenDeleteModel() {
@@ -79,6 +82,33 @@ export default function NotesPage() {
       setDrawerClosed(true); 
     }
   }
+
+  function handleFolderNameChange(){
+    if(selectedFolder){
+    setNameChange(true); 
+    setFoldername(selectedFolder.name);     
+    }
+
+  }
+  function handleFolderName(e:ChangeEvent<HTMLInputElement>){
+    setFoldername(e.currentTarget.value); 
+  }
+
+  function handleSave(){
+    if(selectedFolder.name !== folderName){
+      selectedFolder.name = folderName.trim(); 
+      updateFolder(user, selectedFolder); 
+    }
+    setFoldername("");
+    setNameChange(false); 
+  }
+  
+  useEffect(
+    () => {
+      if (nameChange && badgeRef.current){focusTitleInput();}
+    },
+    [nameChange]
+  )
  
   if (user) { 
     return (
@@ -91,7 +121,7 @@ export default function NotesPage() {
                 <VscMenu color="white" size={25} />
               </label>
               <a className=" text-xl text-white">Notes to Myself</a>
-              <div className="badge badge-primary rounded-md">{selectedFolder? selectedFolder.name : "All Notes"}</div>
+              {nameChange != true? <div className="badge badge-primary rounded-md cursor-text" onClick={handleFolderNameChange}>{selectedFolder? selectedFolder.name : "All Notes"}</div> : <input ref={badgeRef} className="badge badge-primary rounded-md" onBlur={handleSave} value={folderName} onChange={(e) => handleFolderName(e)}></input>}
             </div>
             <div className="md:flex flex-row gap-2 hidden">
               {/* <select className="select select-bordered w-full max-w-xs">
@@ -177,11 +207,6 @@ export default function NotesPage() {
                   </div>
                 </div>
               </dialog>
-              <Button
-                className="btn btn-primary"
-                title="Sign Out"
-                func={() => firebaseSignOut()}
-              ></Button>
             </div>
           </div>
           <NotesScroll
@@ -202,8 +227,6 @@ export default function NotesPage() {
           <section>
             <NoteViewer
               display={editorVisible == true ? "flex" : "hidden"}
-              titleRef={titleRef}
-              folders={folders}
             ></NoteViewer>
           </section>
           {editorVisible == false ? (

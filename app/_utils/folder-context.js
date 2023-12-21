@@ -11,7 +11,7 @@ export function FolderContextProvider({children}){
 
     const {user} = useUserAuth(); 
     const [folders, setFolders] = useState([]);
-    const [selectedFolder, setSelectedFolder] = useState("");
+    const [selectedFolder, setSelectedFolder] = useState(null);
 
     async function handleGetFolders(){
         try{

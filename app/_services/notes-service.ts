@@ -48,8 +48,7 @@ export async function getNotes(user : User)
 }
 
 
-export async function updateNote(user: User, note: Note)
-{
+export async function updateNote(user: User, note: Note){
     if(note && note.id.length !== 0)
     {
         const docRef = doc(db, "users", user.uid, "notes", note.id); 
@@ -172,5 +171,20 @@ export async function deleteFolder(user:User, folder:Folder) {
     catch(ex :any)
     {
         console.log(ex);
+    }
+}
+
+export async function updateFolder(user: User, folder: Folder){
+    if(folder && folder.id.length !== 0)
+    {
+        const docRef = doc(db, "users", user.uid, "folders", folder.id); 
+        try{
+            await updateDoc(docRef, {
+                name: folder.name
+            }); 
+        }
+        catch(ex :any){
+            console.log(ex); 
+        }
     }
 }

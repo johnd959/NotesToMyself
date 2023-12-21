@@ -49,7 +49,7 @@ export default function Folders({
         </div>
         <SideList toggleDrawer={toggleDrawer} handleDelete={handleDeleteFolder} setFilter={(tab:Folder) => {handleFilterByFolder(tab); setSelectedFolder(tab)}} tabList={folders}></SideList>
       </div>
-      <Button func={() => {endFilter(); setSelectedFolder(""); toggleDrawer();}} title="All Notes"></Button>
+      <Button func={() => {endFilter(); setSelectedFolder(null); toggleDrawer();}} title="All Notes"></Button>
     </div>
   );
 }
