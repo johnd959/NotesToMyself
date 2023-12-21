@@ -83,14 +83,14 @@ function NoteViewer({ display }: Props) {
           date: date,
           folder: folder,
         });
-        setTitle("");
-        setContent("");
-        setDate(new Date());
-        setFolder("");
       } else {
         alert("No note was created, please add a title at the least");
       }
     } else {
+      setTitle("");
+      setContent("");
+      setDate(new Date());
+      setFolder("");
       handleDeselect();
     }
   }

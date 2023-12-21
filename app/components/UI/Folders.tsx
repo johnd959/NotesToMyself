@@ -30,7 +30,7 @@ export default function Folders({
 
 
   return (
-    <div className="flex flex-col justify-between min-h-full">
+    <div className="flex flex-col justify-between min-h-full p-4">
       <div>
         <h2 className="text-lg">Folders</h2>
         <div className="flex flex-row items-center gap-2">
@@ -44,7 +44,7 @@ export default function Folders({
           <IconButton
             Icon={VscAdd}
             func={() => handleCreateFolder(folderName)}
-            className="hover:rotate-12"
+            className="hover:rotate-90"
           />
         </div>
         <SideList toggleDrawer={toggleDrawer} handleDelete={handleDeleteFolder} setFilter={(tab:Folder) => {handleFilterByFolder(tab); setSelectedFolder(tab)}} tabList={folders}></SideList>

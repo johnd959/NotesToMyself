@@ -27,17 +27,20 @@ export default function Sidebar({groupsPackage, toggleDrawer}:Props){
 
 
     return(
-        <div className="flex pb-5 flex-row min-h-full text-base-content bg-AppPurple">
-        <ul className="w-12 bg-black flex flex-col justify-between gap-2 content-center pt-16">
+        <div className="flex flex-row min-h-full text-base-content bg-AppPurple rounded-r-xl">
+        <ul className="w-12 py-5 bg-black flex flex-col justify-between gap-2 content-center">
             <li>
-                         <span onClick={() => setSelectedTab(true)} className={"cursor-pointer flex flex-row justify-center py-2 hover:bg-AppPurple transition-colors duration-400 ease-in-out " + `${selectedTab? "bg-AppPurple":"bg-slate-800"}`}><VscFolder color="white" size={30}></VscFolder></span>
-          <span onClick={() => setSelectedTab(false)} className={"cursor-pointer flex flex-row justify-center py-2 hover:bg-AppPurple transition-colors duration-400 ease-in-out " + `${!selectedTab? "bg-AppPurple":"bg-slate-800"}`}><FaUserGroup color="white" size={30}></FaUserGroup></span> 
+                        <span onClick={() => setSelectedTab(true)} className={"cursor-pointer flex flex-row justify-center py-2 hover:bg-AppPurple transition-colors duration-400 ease-in-out rounded-l-xl " + `${selectedTab? "bg-AppPurple":"bg-slate-800"}`}><VscFolder color="white" size={30}></VscFolder></span>
+                        <span onClick={() => setSelectedTab(false)} className={"cursor-pointer flex flex-row justify-center py-2 hover:bg-AppPurple transition-colors duration-400 ease-in-out rounded-l-xl " + `${!selectedTab? "bg-AppPurple":"bg-slate-800"}`}><FaUserGroup color="white" size={30}></FaUserGroup></span> 
             </li>
-            <li onClick={() => {firebaseSignOut(); setViewedNote(null); setSelectedFolder(null);}} className={"cursor-pointer flex flex-row justify-center py-2 hover:bg-AppPurple transition-colors duration-400 ease-in-out "}><VscSignOut color="white" size={30}></VscSignOut></li>
+            <div className="tooltip tooltip-right" data-tip="Log out">
+                <li onClick={() => {firebaseSignOut(); setViewedNote(null); setSelectedFolder(null);}} className={"cursor-pointer flex flex-row justify-center py-2 hover:bg-AppPurple transition-colors duration-400 ease-in-out rounded-l-xl "}><VscSignOut color="white" size={30}></VscSignOut></li>
+            </div>
+            
 
         </ul>
-        <div className="w-60 text-white p-4">
-            {selectedTab? <Folders toggleDrawer={toggleDrawer} /> : <div><h2 className="text-lg">Groups</h2><p>Feature coming soon...</p></div>}
+        <div className="w-60 text-white">
+            {selectedTab? <Folders toggleDrawer={toggleDrawer} /> : <div className="p-4"><h2 className="text-lg">Groups</h2><p>Feature coming soon...</p></div>}
         </div>
       </div>
     )
