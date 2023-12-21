@@ -120,8 +120,8 @@ export default function NotesPage() {
               <label htmlFor="my-drawer" className="bg-inherit border-none rounded-md transition-colors cursor-pointer hover:bg-primary ease-in-out duration-300">
                 <VscMenu color="white" size={25} />
               </label>
-              <a className=" text-xl text-white">Notes to Myself</a>
-              {nameChange != true? <div className="badge badge-primary rounded-md cursor-text" onClick={handleFolderNameChange}>{selectedFolder? selectedFolder.name : "All Notes"}</div> : <input ref={badgeRef} className="badge badge-primary rounded-md" onBlur={handleSave} value={folderName} onChange={(e) => handleFolderName(e)}></input>}
+              <a className=" text-xl text-white cursor-default">Notes to Myself</a>
+              {nameChange != true? <div className={selectedFolder? "tooltip tooltip-right": ""} data-tip="Edit folder name" ><div className="badge badge-primary rounded-md cursor-text" onClick={handleFolderNameChange}>{selectedFolder? selectedFolder.name : "All Notes"}</div></div> : <input ref={badgeRef} className="badge badge-primary rounded-md" onBlur={handleSave} value={folderName} onChange={(e) => handleFolderName(e)}></input>}
             </div>
             <div className="md:flex flex-row gap-2 hidden">
               {/* <select className="select select-bordered w-full max-w-xs">

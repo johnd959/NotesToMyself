@@ -86,13 +86,13 @@ function NoteViewer({ display }: Props) {
       } else {
         alert("No note was created, please add a title at the least");
       }
-    } else {
+    }
+    console.log("At save")
       setTitle("");
       setContent("");
       setDate(new Date());
       setFolder("");
       handleDeselect();
-    }
   }
 
   function del() {
