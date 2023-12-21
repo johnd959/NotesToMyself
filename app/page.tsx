@@ -58,10 +58,15 @@ export default function Home() {
       <main className="flex flex-col justify-center items-center min-h-screen">
         <div className="flex flex-col justify-center gap-2 bg-black p-10 rounded-xl">
           <h1 className="text-center text-white mb-5 text-lg">Notes to Myself</h1>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 items-center">
             <input type="email" placeholder="Email" className="input input-sm" value={email} onChange={(e) => setEmail(e.currentTarget.value)}></input>
             <input type="password" placeholder="Password" className="input input-sm" value={password} onChange={(e) => setPassword(e.currentTarget.value)}></input>
-            <Button title="Sign In" func={() => signIn(email, password)}></Button>
+            <Button className="btn btn-primary px-6" title="Sign In" func={() => signIn(email, password)}></Button>
+          </div>
+          <div className="flex flex-row items-center">
+            <hr className="text-white w-6/12"/>
+            <p className="text-white mx-2">Or</p>
+            <hr className="text-white w-6/12"></hr>            
           </div>
           <Button icon={VscGithubAlt} className="btn-primary" title="Continue with GitHub" func={() => signInWithGitHub()}></Button>
           <Button icon={FaGoogle} className="btn-primary" title="Continue with Google" func={() => emailSignIn()}></Button>
