@@ -35,6 +35,7 @@ export default function Folders({
         <h2 className="text-lg">Folders</h2>
         <div className="flex flex-row items-center gap-2">
           <input
+          required={true}
             type="text"
             className="input input-sm max-w-xs text-black"
             placeholder="Folder Name"
@@ -43,7 +44,7 @@ export default function Folders({
           ></input>
           <IconButton
             Icon={VscAdd}
-            func={() => handleCreateFolder(folderName)}
+            func={() => {handleCreateFolder(folderName); setFolderName("");}}
             className="hover:rotate-90"
           />
         </div>

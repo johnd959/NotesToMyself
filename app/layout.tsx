@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Sidebar from './components/UI/NotesScroll';
 import {AuthContextProvider} from './_utils/auth-context';
 import {NoteContextProvider} from './_utils/note-context.js'
 import { FolderContextProvider } from './_utils/folder-context';

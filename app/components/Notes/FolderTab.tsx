@@ -2,6 +2,7 @@ import { Folder } from "@/app/Types/Folder"
 import { Group } from "@/app/Types/Group"
 import { deleteFolder } from "@/app/_services/notes-service"
 import { useUserAuth } from "@/app/_utils/auth-context"
+import { useFoldersContext } from "@/app/_utils/folder-context";
 import { VscTrash } from "react-icons/vsc";
 
 type Props = {
@@ -13,10 +14,12 @@ type Props = {
 
 
 export default function SideTab({tab, func, handleDelete}:Props){
-    const {user} = useUserAuth(); 
+
+    const {selectedFolder}:{selectedFolder:Folder} = useFoldersContext(); 
+
     return(
         <li className="flex flex-row justify-between items-center join">
-            <div className="flex-1 btn join-item text-left" onClick={() => func()}>
+            <div className={"flex-1 btn join-item text-left border-primaryb  " + `${selectedFolder?.id == tab.id? "btn-ghost" : ""}`} onClick={() => func()}>
             <h3>{tab.name}</h3> 
             </div>
             <div className="flex-3 btn join-item" onClick={() => handleDelete(tab)}>
