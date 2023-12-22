@@ -132,7 +132,7 @@ export default function NotesPage() {
                 <option>Greedo</option>
               </select> */}
               {isSearchActive && (
-                <button
+                <button 
                   className="btn btn-outline btn-error"
                   onClick={handleEndSearch}
                 >
