@@ -20,7 +20,7 @@ function NoteViewer({ display }: Props) {
   const [content, setContent] = useState("");
   const [date, setDate] = useState(new Date());
   const [folder, setFolder]: [string, Function] = useState("");
-  const {folders} = useFoldersContext(); 
+  const {folders, selectedFolder} = useFoldersContext(); 
   const { user } = useUserAuth();
   const { handleAddNote, handleDeleteNote } = useNotesContext();
   function formatDate(date: Date) {
@@ -41,9 +41,18 @@ function NoteViewer({ display }: Props) {
       setTitle("");
       setContent("");
       setDate(new Date());
-      setFolder("");
     }
   }, [viewedNote]);
+
+  useEffect(
+    () => {
+      setTitle("");
+      setContent("");
+      setDate(new Date());
+      setFolder(selectedFolder?.id);
+    },
+    [selectedFolder]
+  )
 
   function handleContentChange(event: React.FormEvent<HTMLTextAreaElement>) {
     setContent(event.currentTarget.value);
@@ -87,11 +96,9 @@ function NoteViewer({ display }: Props) {
         alert("No note was created, please add a title at the least");
       }
     }
-    console.log("At save")
       setTitle("");
       setContent("");
       setDate(new Date());
-      setFolder("");
       handleDeselect();
   }
 
@@ -140,7 +147,7 @@ function NoteViewer({ display }: Props) {
                 {folder.name}
               </option>
             ))}
-          <option value="">None</option>
+          <option value="">Select a Folder</option>
         </select>
       </div>
       <textarea

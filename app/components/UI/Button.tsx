@@ -3,15 +3,16 @@ import { IconType } from "react-icons";
 
 type Props = {
   func: Function;
-  title: string;
+  title?: string;
   className?: string;
-  icon?: IconType
+  Icon?: IconType,
+  iconSize?: number
 };
 
-function Button(props: Props) {
-  return <button className={"btn flex flex-row  " + props.className + ` ${props.icon != null ? "justify-between" : ""}`} onClick={() => props.func()}>
-    {props.icon != null? <props.icon size={30}/> : <></>}
-    {props.title}
+function Button({func, title, className, Icon, iconSize=30}:Props) {
+  return <button className={"btn flex flex-row  " + className + ` ${Icon != null ? "justify-between" : ""}`} onClick={() => func()}>
+    {Icon != null? <Icon size={iconSize}/> : <></>}
+    {title}
     </button>;
 }
 
