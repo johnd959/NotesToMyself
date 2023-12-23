@@ -15,6 +15,7 @@ import {
 import { auth } from "./firebase";
 import { reg } from "../Types/regex";
 import { set } from "firebase/database";
+import { stringifyError } from "next/dist/shared/lib/utils";
  
 const AuthContext = createContext();
  
@@ -22,14 +23,41 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const[errM, setErrM] = useState(""); 
  
-  const gitHubSignIn = () => {
-    const provider = new GithubAuthProvider();
-    return signInWithPopup(auth, provider);
-  };
+  const gitHubSignIn = async () => {
 
-  const emailSignIn = () => {
+    const provider = new GithubAuthProvider();      
+    try{
+      const gitHubCredential = await signInWithPopup(auth, provider); 
+    } catch (ex){
+      if (ex.code == "auth/account-exists-with-different-credential"){
+        // The account exist with a different credential
+        let email = ex.email;
+        let pendingCredential = ex.credential; 
+        console.log(ex);
+        //Get list of sign-in methods for the conflicting user
+        // let userSignInMethods = await fetchSignInMethodsForEmail(auth, email); 
+        // console.log(userSignInMethods); 
+    }
+  };
+}
+
+  const emailSignIn = async () => {
     const googProvider = new GoogleAuthProvider();
-    return signInWithPopup(auth, googProvider); 
+    try{
+      let googleCredential = await signInWithPopup(auth, googProvider); 
+    }catch(ex){
+      console.log("Google cred error");
+      if (ex.code == "account-exists-with-different-credential"){
+        // The account exist with a different credential
+        let email = ex.email;
+        let pendingCredential = ex.credential; 
+
+        //Get list of sign-in methods for the conflicting user
+        let userSignInMethods = await auth.fetchSignInMethodsForEmail(email); 
+        console.log(userSignInMethods); 
+      }
+    }
+
   }
 
   const createUser = async (email, password) => {

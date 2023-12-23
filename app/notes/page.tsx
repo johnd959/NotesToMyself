@@ -7,7 +7,7 @@ import { Folder } from "../Types/Folder";
 import { useUserAuth } from "../_utils/auth-context";
 import NoteViewer from "../components/UI/NoteViewer";
 import { RedirectType, redirect } from "next/navigation";
-import { VscEdit, VscMenu } from "react-icons/vsc";
+import { VscClose, VscEdit, VscMenu } from "react-icons/vsc";
 import {
   createNote,
   getNotes,
@@ -23,17 +23,14 @@ import { useFoldersContext } from "../_utils/folder-context";
 import IconButton from "../components/UI/IconButton";
 
 export default function NotesPage() {
-  const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
+  const { user} = useUserAuth();
   const {
-    notes,
     setNotes,
     handleSearchNotes,
-    handleAddNote,
     endFilter,
-    viewedNote,
     setViewedNote,
   } = useNotesContext();
-  const { selectedFolder } = useFoldersContext();
+  const { selectedFolder, setSelectedFolder } = useFoldersContext();
   const [editorVisible, setEditorVisible] = useState(true);
   const [searchedTitle, setSearchedTitle] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
@@ -79,7 +76,7 @@ export default function NotesPage() {
     }
   }
   function handleEndSearch() {
-    endFilter();
+    endFilter(selectedFolder);
     setIsSearchActive(false);
     setSearchedTitle("");
   }
@@ -140,36 +137,41 @@ export default function NotesPage() {
                 Notes to Myself
               </a>
             </div>
-            <div className={"flex items-center justify-center w-4/12 join " + `${isSearchActive? "hidden" : ""}`}>
+            <div className={"flex items-center justify-end sm:justify-center w-8/12 sm:w-4/12 join  " + `${isSearchActive? "hidden" : ""}`}>
               {nameChange != true ? (
-                <div
-                  className={selectedFolder ? "tooltip tooltip-right" : ""}
-                  data-tip="Edit folder name"
-                >
-                  <div className="btn btn-primary rounded-md cursor-text join-item">
-                    {selectedFolder ? selectedFolder.name : "All Notes"}
+                  <div className="btn btn-primary rounded-md cursor-default join-item">
+                    {selectedFolder ? selectedFolder.name.substr(0, 20) : "All Notes"}
                   </div>
-                </div>
               ) : (
                 <input
+                  type="text"
+                  size={20}
                   ref={badgeRef}
-                  className="input input-md bg-primary text-white join-item rounded-lg mr-10"
+                  className="input input-md bg-primary text-white join-item rounded-lg"
                   onBlur={handleSave}
                   value={folderName}
                   onChange={(e) => handleFolderName(e)}
                 ></input>
               )}
-              <Button
+              <div className={"flex " +
+                  `${!nameChange && selectedFolder ? "" : "hidden"}`}>
+                <Button
                 className={
-                  "join-item btn-primary " +
-                  `${!nameChange && selectedFolder ? "" : "hidden"}`
+                  "join-item btn-primary"
                 }
                 func={() => handleFolderNameChange()}
                 Icon={VscEdit}
                 iconSize={20}
               ></Button>
+              <Button
+                className="join-item btn-primary"
+                func={() => {endFilter(); setSelectedFolder(null)}}
+                Icon={VscClose}
+              />                
+              </div>
+              
             </div>
-            <div className={"flex-row gap-2 w-4/12 justify-end md:flex " + `${!isSearchActive? "hidden" : ""}`}>
+            <div className={"flex-row gap-2 w-4/12 justify-end sm:flex " + `${!isSearchActive? "hidden" : ""}`}>
               {isSearchActive && (
                 <button
                   className="btn btn-outline btn-error"
