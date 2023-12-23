@@ -218,15 +218,12 @@ export default function NotesPage() {
                         modal.close();
                       }
                     }}
-                  >
-
-                  </Button>
+                  />
                   <Button
                   title="Search"
                     className="btn btn-primary"
                     func={handleSearchNote}
-                  >
-                  </Button>
+                  />
                 </div>
               </div>
             </dialog>
