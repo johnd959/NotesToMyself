@@ -68,7 +68,7 @@ export function NoteContextProvider({children}){
         () => {
             handleLoadNotes();
         },
-        [user, handleLoadNotes]
+        [user]
     )
 
     useEffect(

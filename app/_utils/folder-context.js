@@ -35,7 +35,7 @@ export function FolderContextProvider({children}){
             () => {
                 handleGetFolders();
             },
-            [user, handleGetFolders]
+            [user]
         )
     
 
