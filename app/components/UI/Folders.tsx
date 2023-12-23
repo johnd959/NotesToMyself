@@ -44,7 +44,7 @@ export default function Folders({
           ></input>
           <IconButton
             Icon={VscAdd}
-            func={() => {handleCreateFolder(folderName); setFolderName("");}}
+            func={async () => {await handleCreateFolder(folderName); setFolderName("");}}
             className="hover:rotate-90"
           />
         </div>
