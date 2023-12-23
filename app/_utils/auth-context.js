@@ -10,6 +10,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   deleteUser,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "./firebase";
 import { reg } from "../Types/regex";
@@ -44,7 +45,7 @@ export const AuthContextProvider = ({ children }) => {
       }
       let userCredential = await createUserWithEmailAndPassword(auth, email, password); 
       setErrM(""); 
-
+      return true;
     }catch(ex){
       if(ex.code == "app/email-empty") {
         setErrM("Please enter an email"); 
@@ -59,26 +60,68 @@ export const AuthContextProvider = ({ children }) => {
         setErrM("An account with this email exists")
       }
     }
+    return false;
   }
 
   const signIn = async (email, password) => {
     try{
+      if(email.trim() === ""){
+        throw {code: "app/email-empty"};
+      }else if(reg.email.test(email.trim()) == false){
+        throw {code: "app/invalid-email"};
+      }
+      else if(password.trim() === ""){
+        throw {code: "app/empty-password"};
+      }
       let userCredential = await signInWithEmailAndPassword(auth, email.trim(), password.trim()); 
       setErrM("");
+      return true; 
     } catch(ex){
-      if(ex.code == 'auth/invalid-email'){
+      if(ex.code == "app/email-empty") {
+        setErrM("Please enter an email"); 
+      }
+      else if(ex.code == 'auth/invalid-email' || ex.code == "app/invalid-email"){
         setErrM("Invalid Email");
       }
-      else if(ex.code == "auth/missing-password"){
+      else if(ex.code == "app/empty-password" || ex.code == "auth/missing-password"){
         setErrM("Please enter a password");
       }
       else if(ex.code == "auth/invalid-credential"){
-        setErrM("Invalid Password"); 
+        setErrM("Wrong Password"); 
       }
       else{
         setErrM("Something went wrong, please try again");
       }
     }
+    return false;
+  }
+
+  const resetPassword = async (email) => {
+    try{
+      if(email.trim() === ""){
+        throw {code: "app/email-empty"};
+      }
+      else if(reg.email.test(email.trim()) == false){
+        throw {code: "app/invalid-email"};
+      }
+      await sendPasswordResetEmail(auth, email.trim()); 
+      setErrM(""); 
+      return true; 
+    }
+    catch(ex){
+      if(ex.code == "app/email-empty") {
+        setErrM("Please enter an email"); 
+      }
+      else if(ex.code == "app/invalid-email"){
+        setErrM("Please enter a valid email");
+      }
+      else if(ex.code == 'auth/invalid-email'){
+        setErrM("Invalid Email");
+      } else if (ex.code == 'auth/missing-email'){
+        setErrM("Please enter an email"); 
+      }
+    }
+    return false;
   }
  
   const firebaseSignOut = () => {
@@ -94,7 +137,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [user]);
  
   return (
-    <AuthContext.Provider value={{ user, errM, gitHubSignIn, firebaseSignOut, emailSignIn, signIn, createUser, setErrM,  }}>
+    <AuthContext.Provider value={{ user, errM, gitHubSignIn, firebaseSignOut, emailSignIn, signIn, createUser, setErrM, resetPassword  }}>
       {children}
     </AuthContext.Provider>
   );
