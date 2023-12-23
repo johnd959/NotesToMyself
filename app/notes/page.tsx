@@ -201,7 +201,7 @@ export default function NotesPage() {
                   value={searchedTitle}
                   onChange={handleSearchTitle}
                   className="input input-bordered input-sm w-full"
-                  placeholder="Enter note title"
+                  placeholder="Enter note title or content"
                 ></input>
                 <div className="flex flex-row items-center justify-end w-full gap-2">
                 <Button

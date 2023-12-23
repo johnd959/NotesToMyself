@@ -15,7 +15,7 @@ const config: Config = {
       },
     },
     colors: {
-      'AppPurple': '#51466e',
+      'AppPurple': '#796FDD',
       'black': '#000000',
       'white': '#ffffff',
     }

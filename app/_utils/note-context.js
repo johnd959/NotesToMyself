@@ -42,10 +42,10 @@ export function NoteContextProvider({children}){
         setOriginalNotes(originalNotes.filter((item) => item.id != note.id))
     }
 
-    function handleSearchNotes(searchedTitle){
+    function handleSearchNotes(searchedString){
         setNotes(
         notes.filter((note) =>
-        `${note.title + "\U+0020" + note.content}`.toLowerCase().includes(searchedTitle.toLowerCase())
+        `${note.title + "\U+0020" + note.content}`.toLowerCase().includes(searchedString.toLowerCase())
       )); 
     }
 
