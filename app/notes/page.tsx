@@ -169,7 +169,7 @@ export default function NotesPage() {
                 iconSize={20}
               ></Button>
             </div>
-            <div className={"flex-row gap-2 w-4/12 " + `${!isSearchActive? "hidden md:flex" : ""}`}>
+            <div className={"flex-row gap-2 w-4/12 justify-end " + `${!isSearchActive? "hidden md:flex" : ""}`}>
               {/* <select className="select select-bordered w-full max-w-xs">
                 <option disabled selected>
                   Who shot first?
