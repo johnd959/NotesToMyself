@@ -45,7 +45,7 @@ export function NoteContextProvider({children}){
     function handleSearchNotes(searchedTitle){
         setNotes(
         notes.filter((note) =>
-        note.title.toLowerCase().includes(searchedTitle.toLowerCase())
+        `${note.title + "\U+0020" + note.content}`.toLowerCase().includes(searchedTitle.toLowerCase())
       )); 
     }
 
@@ -59,9 +59,14 @@ export function NoteContextProvider({children}){
         }
       }
 
-    function endFilter(){
+    function endFilter(folder=null){
         setFilter(false); 
-        setNotes(originalNotes); 
+        if(folder){
+            setNotes(originalNotes.filter((note) => note.folder == folder.id))
+        }
+        else{
+            setNotes(originalNotes); 
+        }
     }
 
     useEffect(
