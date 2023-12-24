@@ -67,8 +67,8 @@ export default function Home() {
         <div className="flex flex-col justify-center gap-2 bg-black p-12 rounded-xl">
           <h1 className="text-center text-white mb-5 text-lg">Notes to Myself</h1>
           <div className="flex flex-col gap-2">
-            <input type="email" placeholder="Email" className="input input-sm min-w-full" value={email} onChange={(e) => setEmail(e.currentTarget.value)}></input>
-            <input type="password" placeholder="Password" className="input input-sm min-w-full" value={password} onChange={(e) => setPassword(e.currentTarget.value)}></input>
+            <input type="email" placeholder="Email" className="input input-sm min-w-full text-base" value={email} onChange={(e) => setEmail(e.currentTarget.value)}></input>
+            <input type="password" placeholder="Password" className="input input-sm min-w-full text-base" value={password} onChange={(e) => setPassword(e.currentTarget.value)}></input>
             <div className={"label " + `${errM == "" ? "hidden" : ""}`}>{errM !== "" ? <span className="text-error label-text">{errM}</span> : <p></p>}</div>
             <Button className="btn btn-primary px-6" title="Sign In" func={() => handleSignIn()}></Button>
             <div className="label"><a className="label-text text-info cursor-pointer" onClick={() => setMenu(3)}>Forgot Password?</a></div>
