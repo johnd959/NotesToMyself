@@ -30,11 +30,16 @@ export const AuthContextProvider = ({ children }) => {
       const gitHubCredential = await signInWithPopup(auth, provider); 
     } catch (ex){
       if (ex.code == "auth/account-exists-with-different-credential"){
+
+        setErrM("Please try logging in with Google")
+        console.log("Account with this email exists with our other identity provider (Google)"); 
+
+        //TBD
         // The account exist with a different credential
-        let email = ex.email;
-        let pendingCredential = ex.credential; 
-        console.log(ex);
-        //Get list of sign-in methods for the conflicting user
+        // let email = ex.email;
+        // let pendingCredential = ex.credential; 
+        // console.log(ex);
+        // Get list of sign-in methods for the conflicting user
         // let userSignInMethods = await fetchSignInMethodsForEmail(auth, email); 
         // console.log(userSignInMethods); 
     }
