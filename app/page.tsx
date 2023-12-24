@@ -90,8 +90,8 @@ export default function Home() {
         <div className="flex flex-col justify-center gap-2 bg-black p-12 rounded-xl">
           <h1 className="text-center text-white mb-5 text-lg">Create an Account</h1>
           <div className="flex flex-col gap-2">
-            <div className="tooltip tooltip-top md:tooltip-right tooltip-primary text-left" data-tip="Emails are used for password resets"><input type="email" placeholder="Email" className="input input-sm w-full" value={email} onChange={(e) => setEmail(e.currentTarget.value)}></input></div>
-            <div className="tooltip tooltip-top md:tooltip-right tooltip-primary text-left" data-tip="No preceding or trailing spaces"><input type="password" placeholder="Password" className="input input-sm w-full" value={password} onChange={(e) => setPassword(e.currentTarget.value)}></input></div>
+            <div className="tooltip tooltip-top md:tooltip-right tooltip-primary text-left" data-tip="Emails are used for password resets"><input type="email" placeholder="Email" className="input input-sm w-full text-base" value={email} onChange={(e) => setEmail(e.currentTarget.value)}></input></div>
+            <div className="tooltip tooltip-top md:tooltip-right tooltip-primary text-left" data-tip="No preceding or trailing spaces"><input type="password" placeholder="Password" className="input input-sm w-full text-base" value={password} onChange={(e) => setPassword(e.currentTarget.value)}></input></div>
             <div className="label">{errM !== ""? <span className="label-text text-error">{errM}</span> : <p></p>}</div>
             <div className="flex flex-row gap-2 items-center justify-center"><Button title="Back" className="btn-primary rounded-r-none w-6/12" func={() => handleGoBack()}></Button><Button className="btn btn-primary px-6 rounded-l-none w-6/12" title="Next" func={() => handleCreateAccount()}></Button></div>
           </div>
@@ -116,7 +116,7 @@ export default function Home() {
           <div className="flex flex-col justify-center gap-2 bg-black p-12 rounded-xl">
             <h1 className="text-center text-white mb-5 text-lg">Reset Your Password</h1>
             <div className="flex flex-col gap-2">
-              <div className="tooltip tooltip-top md:tooltip-right tooltip-primary text-left" data-tip="A password reset email will be sent to this address"><input type="email" placeholder="Email" className="input input-sm w-full" value={email} onChange={(e) => setEmail(e.currentTarget.value)}></input></div>
+              <div className="tooltip tooltip-top md:tooltip-right tooltip-primary text-left" data-tip="A password reset email will be sent to this address"><input type="email" placeholder="Email" className="input input-sm w-full text-base" value={email} onChange={(e) => setEmail(e.currentTarget.value)}></input></div>
               <div className="label">{errM !== ""? <span className="label-text text-error">{errM}</span> : <p></p>}</div>
               <div className="flex flex-row gap-2 items-center justify-center"><Button title="Back" className="btn-primary rounded-r-none w-6/12" func={() => handleGoBack()}></Button><Button className="btn btn-primary px-6 rounded-l-none w-6/12" title="Next" func={() => handlePasswordReset()}></Button></div>
             </div>
