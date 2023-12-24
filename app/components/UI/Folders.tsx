@@ -37,7 +37,7 @@ export default function Folders({
           <input
           required={true}
             type="text"
-            className="input input-sm max-w-x text-black dark:text-white text-base"
+            className="input input-sm max-w-x text-black dark:text-white text-lg"
             placeholder="Folder Name"
             value={folderName}
             onChange={(e) => handleNameChange(e)}
