@@ -157,7 +157,7 @@ export default function NotesPage() {
                   `${!nameChange && selectedFolder ? "" : "hidden"}`}>
                 <Button
                 className={
-                  "join-item btn-primary"
+                  "join-item rounded-md btn-primary"
                 }
                 func={() => handleFolderNameChange()}
                 Icon={VscEdit}
