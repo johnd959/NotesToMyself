@@ -116,7 +116,7 @@ export default function NotesPage() {
 
   if (user) {
     return (
-      <main className="drawer xl:drawer-open">
+      <main className="drawer">
         <input
           id="my-drawer"
           type="checkbox"
