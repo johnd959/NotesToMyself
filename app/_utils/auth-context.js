@@ -28,7 +28,7 @@ function prevZoom() {
       );
   }
 }
-ReactDOM.addEventListener('DOMContentLoaded', () => prevZoom()); 
+document.addEventListener('DOMContentLoaded', () => prevZoom()); 
 
 const AuthContext = createContext();
  
