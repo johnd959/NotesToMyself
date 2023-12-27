@@ -123,6 +123,7 @@ function NoteViewer({ display, handleDeleteNote }: Props) {
     >
       <div className="flex flex-col gap-2">
         <input
+        maxLength={25}
           type="text"
           className="input input-bordered max-w-xs md:max-w-none"
           value={title}
