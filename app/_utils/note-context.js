@@ -43,6 +43,7 @@ export function NoteContextProvider({children}){
     }
 
     function handleSearchNotes(searchedString){
+        setViewedNote(null); 
         setNotes(
         notes.filter((note) =>
         `${note.title + "\U+0020" + note.content}`.toLowerCase().includes(searchedString.toLowerCase())
@@ -50,6 +51,7 @@ export function NoteContextProvider({children}){
     }
 
     function handleFilterByFolder(folder){
+        setViewedNote(null); 
         if(!filter && folder.id !== ""){
           setFilter(true); 
           setNotes(notes.filter((note) => note.folder == folder.id));
@@ -60,6 +62,7 @@ export function NoteContextProvider({children}){
       }
 
     function endFilter(folder=null){
+        setViewedNote(null);
         setFilter(false); 
         if(folder){
             setNotes(originalNotes.filter((note) => note.folder == folder.id))

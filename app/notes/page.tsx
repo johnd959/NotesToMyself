@@ -21,6 +21,8 @@ import Sidebar from "../components/UI/Sidebar";
 import { useNotesContext } from "../_utils/note-context";
 import { useFoldersContext } from "../_utils/folder-context";
 import IconButton from "../components/UI/IconButton";
+import Confirm from "../components/UI/Confirm";
+
 
 export default function NotesPage() {
   const { user} = useUserAuth();
@@ -29,14 +31,22 @@ export default function NotesPage() {
     handleSearchNotes,
     endFilter,
     setViewedNote,
+    viewedNote,
+    handleDeleteNote,
   } = useNotesContext();
-  const { selectedFolder, setSelectedFolder } = useFoldersContext();
+  const { selectedFolder, setSelectedFolder, handleDeleteFolder } = useFoldersContext();
   const [editorVisible, setEditorVisible] = useState(true);
   const [searchedTitle, setSearchedTitle] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isDrawerClosed, setDrawerClosed] = useState(false);
   const [folderName, setFoldername] = useState("");
   const [nameChange, setNameChange] = useState(false);
+  const del = {
+    message: "NA",
+    func: () => {}, 
+  }
+  const [delOp, setDelOp] = useState(del); 
+
 
   function handleSetViewedNote(note: Note) {
     setViewedNote(note);
@@ -55,6 +65,25 @@ export default function NotesPage() {
       modal.showModal();
     }
   }
+
+  function deleteNote(){
+    const modal = document.getElementById("delOpModal");
+    setDelOp({
+      message: `Delete note: ${viewedNote.title}?`,
+      func: () => {
+        handleDeleteNote(viewedNote); 
+        setDelOp(del); 
+        if (modal instanceof HTMLDialogElement){
+          modal.close(); 
+        }
+      }
+    })
+    if (modal instanceof HTMLDialogElement){
+      modal.showModal()
+    }
+  }
+
+
   function handleDeleteAllNotes() {
     setNotes([]);
     const modal = document.getElementById("my_modal_5");
@@ -201,7 +230,7 @@ export default function NotesPage() {
                   value={searchedTitle}
                   onChange={handleSearchTitle}
                   className="input input-bordered input-sm w-full"
-                  placeholder="Enter note title or content"
+                  placeholder={`Search in: ${selectedFolder? selectedFolder.name : "All notes"}`}
                 ></input>
                 <div className="flex flex-row items-center justify-end w-full gap-2">
                 <Button
@@ -222,32 +251,18 @@ export default function NotesPage() {
                 </div>
               </div>
             </dialog>
-            <dialog id="my_modal_5" className="modal">
-              <div className="modal-box flex flex-row items-center">
-                <div>Delete all notes?</div>
-                <div className="flex flex-row">
-                  <button
-                    className="btn btn-error"
-                    onClick={handleDeleteAllNotes}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => {
-                      const modal = document.getElementById("my_modal_5");
-                      if (modal instanceof HTMLDialogElement) {
-                        modal.close();
-                      }
-                    }}
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </dialog>
+            <Confirm
+            modalID="delOpModal"
+            message={delOp.message}
+            actions={[{
+              name:"Delete",
+              action: () => delOp.func()
+            }]}
+            >
+            </Confirm>
           </div>
           <NotesScroll
+            viewedNote={viewedNote}
             scroll={editorVisible ? "overflow-y-scroll" : "overflow-y-scroll"}
             handleSetViewedNote={handleSetViewedNote}
             handleDeleteAllNotes={handleOpenDeleteModel}
@@ -264,6 +279,7 @@ export default function NotesPage() {
           )}
           <section>
             <NoteViewer
+            handleDeleteNote={deleteNote}
               display={editorVisible == true ? "flex" : "hidden"}
             ></NoteViewer>
           </section>
@@ -283,7 +299,7 @@ export default function NotesPage() {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <Sidebar toggleDrawer={toggleDrawer}></Sidebar>
+          <Sidebar setDelOp={setDelOp} toggleDrawer={toggleDrawer}></Sidebar>
         </div>
       </main>
     );

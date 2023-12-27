@@ -1,19 +1,23 @@
 import { IconType } from "react-icons"
 
+
 type Props = {
     func?: Function,
     className?: String,
     Icon: IconType,
-    hover?: string
+    hover?: string,
+    type?:"button" | "submit" | "reset" | undefined,
 
 
 }
 
 
-export default function IconButton({func, className, Icon, hover}:Props){
+export default function IconButton({func, className, Icon, type, hover}:Props){
     return(
-        <li onClick={() => {func? func() : {}}} className={"cursor-pointer flex flex-row justify-center items-center py-2 transition-all duration-400 ease-in-out " + `${className}` }>
+        <li className="list-none">
+            <button type={type} onSubmit={() => {func? func() : {}}} className={"cursor-pointer flex flex-row justify-center items-center py-2 transition-all duration-400 ease-in-out " + `${className}` }>
             <Icon size={25}/>
+            </button>
         </li>
     )
 }

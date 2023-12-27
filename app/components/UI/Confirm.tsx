@@ -1,27 +1,43 @@
-import { IconType } from "react-icons"
+import { IconType } from "react-icons";
+import Button from "./Button";
 
 interface Props {
-    modalID:string,
-    title:string,
-    message:string,
-    actions:{
-        action:string,
-        Icon:IconType,
-    }
+  modalID: string;
+  message: string;
+  actions: {
+    name: string;
+    action: () => void;
+    Icon?: IconType;
+  }[];
 }
 
-export default function Confirm({modalID, title, message, actions}:Props){
-    return(
-        <dialog id={modalID} className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">{title}</h3>
-          <p className="py-4">{message}</p>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn btn-primary">Close</button>
-            </form>
-          </div>
-         </div>
-      </dialog>
-    )
+export default function Confirm({ modalID, message, actions }: Props) {
+  return (
+    <dialog id={modalID} className="modal">
+      <div className="bg-black modal-box flex flex-row items-center justify-between ring-2 ring-error">
+        <div className="text-error">{message}</div>
+        <div className="flex flex-row gap-2">
+          {actions.map((action) => (
+            <Button
+              className="btn btn-error"
+              func={action.action}
+              title={action.name}
+              Icon={action.Icon}
+            ></Button>
+          ))}
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              const modal = document.getElementById(modalID);
+              if (modal instanceof HTMLDialogElement) {
+                modal.close();
+              }
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </dialog>
+  );
 }

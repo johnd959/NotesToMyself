@@ -12,9 +12,10 @@ import { useFoldersContext } from "@/app/_utils/folder-context";
 
 type Props = {
   display: string,
+  handleDeleteNote: () => void
 };
 
-function NoteViewer({ display }: Props) {
+function NoteViewer({ display, handleDeleteNote }: Props) {
   const { viewedNote, setViewedNote } = useNotesContext();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -22,7 +23,7 @@ function NoteViewer({ display }: Props) {
   const [folder, setFolder]: [string, Function] = useState("");
   const {folders, selectedFolder} = useFoldersContext(); 
   const { user } = useUserAuth();
-  const { handleAddNote, handleDeleteNote } = useNotesContext();
+  const { handleAddNote} = useNotesContext();
   function formatDate(date: Date) {
     return date.toISOString().split("T")[0];
   }
@@ -104,7 +105,7 @@ function NoteViewer({ display }: Props) {
 
   function del() {
     if (viewedNote) {
-      handleDeleteNote(viewedNote);
+      handleDeleteNote();
       setViewedNote(null);
       setTitle("");
       setContent("");

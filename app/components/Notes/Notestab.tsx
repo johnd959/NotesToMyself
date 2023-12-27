@@ -2,14 +2,15 @@ import React from "react";
 import { Note } from "@/app/Types/Note";
 
 type Props = {
-  note: Note;
-  onSetViewedNote: Function;
+  note: Note,
+  viewedNote: Note,
+  onSetViewedNote: Function,
 };
 
-function Notestab({ note, onSetViewedNote }: Props) {
+function Notestab({ note, onSetViewedNote, viewedNote }: Props) {
   return (
     <li
-      className="btn rounded-large flex flex-col justify-center p-2 w-60 h-72"
+    className={"btn rounded-large flex flex-col justify-center p-2 w-60 h-72 " + `${viewedNote === note? "ring-primary ring-4" : ""}`}
       onClick={() => onSetViewedNote(note)}
     >
       <div className="">
