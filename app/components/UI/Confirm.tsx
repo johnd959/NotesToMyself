@@ -19,6 +19,7 @@ export default function Confirm({ modalID, message, actions }: Props) {
         <div className="flex flex-row gap-2">
           {actions.map((action) => (
             <Button
+              key={action.name}
               className="btn btn-error"
               func={action.action}
               title={action.name}
