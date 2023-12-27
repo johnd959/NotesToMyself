@@ -11,13 +11,15 @@ type Props = {
   handleDeleteAllNotes: () => void,
   height: String,
   scroll: String,
+  viewedNote: Note,
 };
 
 function Sidebar({
   handleSetViewedNote,
   handleDeleteAllNotes,
   height,
-  scroll
+  scroll,
+  viewedNote
 }: Props) {
   const { firebaseSignOut } = useUserAuth();
   const {notes}:{notes:Note[]} = useNotesContext(); 
@@ -30,6 +32,7 @@ function Sidebar({
       }
     >
       <TabList
+        viewedNote={viewedNote}
         handleSetViewedNote={handleSetViewedNote}
         handleDeleteAllNotes={handleDeleteAllNotes}
         notes={notes}

@@ -12,13 +12,13 @@ import { useFoldersContext } from "@/app/_utils/folder-context";
  type Props = {
     groupsPackage?: {groups:Group[], setGroups:Function},
     toggleDrawer: Function,
-
+    setDelOp: Function,
 
  }
 
 
 
-export default function Sidebar({groupsPackage, toggleDrawer}:Props){
+export default function Sidebar({groupsPackage, toggleDrawer, setDelOp}:Props){
 
     const [selectedTab, setSelectedTab]:[Boolean, Function] = useState(true);
     const {firebaseSignOut} = useUserAuth();
@@ -49,7 +49,7 @@ export default function Sidebar({groupsPackage, toggleDrawer}:Props){
 
         </ul>
         <div className="w-60 text-white">
-            {selectedTab? <Folders toggleDrawer={toggleDrawer} /> : <div className="p-4"><h2 className="text-lg">Groups</h2><p>Feature coming soon...</p></div>}
+            {selectedTab? <Folders setDelOp={setDelOp} toggleDrawer={toggleDrawer} /> : <div className="p-4"><h2 className="text-lg">Groups</h2><p>Feature coming soon...</p></div>}
         </div>
       </div>
     )

@@ -12,11 +12,13 @@ import { useFoldersContext } from "@/app/_utils/folder-context";
 
 type Props = {
   toggleDrawer: Function,
+  setDelOp: Function,
 
 };
 
 export default function Folders({
   toggleDrawer,
+  setDelOp,
 }: Props) {
   const { user } = useUserAuth();
   const [folderName, setFolderName]: [string, Function] = useState("");
@@ -27,13 +29,41 @@ export default function Folders({
     setFolderName(e.currentTarget.value);
   }
 
+  function deleteFolder(selectedFolder:Folder){
+    const modal = document.getElementById("delOpModal");
+    setDelOp({
+      message: `Delete folder: ${selectedFolder.name}?`,
+      func: async () => {
+        await handleDeleteFolder(selectedFolder); 
+        endFilter();
+        setDelOp({
+          message: "NA",
+          func: () => {}
+        }); 
+        if (modal instanceof HTMLDialogElement){
+          modal.close(); 
+        }
+      }
+    })
+    if (modal instanceof HTMLDialogElement){
+      modal.showModal()
+    }
+  }
+
+  async function createFolder(e:FormEvent<HTMLFormElement>)
+  {
+    e.preventDefault();
+    await handleCreateFolder(folderName);
+    setFolderName("");
+  }
+
 
 
   return (
     <div className="flex flex-col justify-between min-h-full p-4">
       <div>
         <h2 className="text-lg">Folders</h2>
-        <div className="flex flex-row items-center gap-2">
+        <form method="submit" onSubmit={(e) => createFolder(e)} className="flex flex-row items-center gap-2">
           <input
           required={true}
             type="text"
@@ -43,12 +73,12 @@ export default function Folders({
             onChange={(e) => handleNameChange(e)}
           ></input>
           <IconButton
+            type="submit"
             Icon={VscAdd}
-            func={async () => {await handleCreateFolder(folderName); setFolderName("");}}
             className="hover:rotate-90"
           />
-        </div>
-        <SideList toggleDrawer={toggleDrawer} handleDelete={handleDeleteFolder} setFilter={(tab:Folder) => {handleFilterByFolder(tab); setSelectedFolder(tab)}} tabList={folders}></SideList>
+        </form>
+        <SideList toggleDrawer={toggleDrawer} handleDelete={deleteFolder} setFilter={(tab:Folder) => {handleFilterByFolder(tab); setSelectedFolder(tab)}} tabList={folders}></SideList>
       </div>
       <Button func={() => {endFilter(); setSelectedFolder(null); toggleDrawer();}} title="All Notes"></Button>
     </div>
