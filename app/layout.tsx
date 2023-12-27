@@ -17,17 +17,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  function prevZoom() {
-    if (navigator.userAgent.indexOf("iPhone") > -1) {
-      document
-        ?.querySelector("[name=viewport]")
-        ?.setAttribute(
-          "content",
-          "width=device-width, initial-scale=1, maximum-scale=1"
-        );
-    }
-  }
-  document.addEventListener('DOMContentLoaded', () => prevZoom()); 
   return (
     <html lang="en">
       <meta
