@@ -1,33 +1,45 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import {AuthContextProvider} from './_utils/auth-context';
-import {NoteContextProvider} from './_utils/note-context.js'
-import { FolderContextProvider } from './_utils/folder-context';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { AuthContextProvider } from "./_utils/auth-context";
+import { NoteContextProvider } from "./_utils/note-context.js";
+import { FolderContextProvider } from "./_utils/folder-context";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Notes to Myself',
-  description: 'For those times when you need to talk to yourself',
-}
+  title: "Notes to Myself",
+  description: "Just a notes app",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
+  function prevZoom() {
+    if (navigator.userAgent.indexOf("iPhone") > -1) {
+      document
+        ?.querySelector("[name=viewport]")
+        ?.setAttribute(
+          "content",
+          "width=device-width, initial-scale=1, maximum-scale=1"
+        );
+    }
+  }
   return (
     <html lang="en">
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      ></meta>
       <body>
         <AuthContextProvider>
           <FolderContextProvider>
-          <NoteContextProvider>
-              {children}
-          </NoteContextProvider>            
+            <NoteContextProvider>{children}</NoteContextProvider>
           </FolderContextProvider>
         </AuthContextProvider>
-        </body>
+      </body>
     </html>
-  )
+  );
 }
