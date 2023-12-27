@@ -27,6 +27,7 @@ export default function RootLayout({
         );
     }
   }
+  document.addEventListener('DOMContentLoaded', () => prevZoom()); 
   return (
     <html lang="en">
       <meta
