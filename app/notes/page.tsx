@@ -258,8 +258,7 @@ export default function NotesPage() {
               name:"Delete",
               action: () => delOp.func()
             }]}
-            >
-            </Confirm>
+            />
           </div>
           <NotesScroll
             viewedNote={viewedNote}
