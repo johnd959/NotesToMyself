@@ -41,6 +41,7 @@ function NoteViewer({ display, handleDeleteNote }: Props) {
     } else {
       setTitle("");
       setContent("");
+      setFolder(""); 
       setDate(new Date());
     }
   }, [viewedNote]);
@@ -50,7 +51,11 @@ function NoteViewer({ display, handleDeleteNote }: Props) {
       setTitle("");
       setContent("");
       setDate(new Date());
-      setFolder(selectedFolder?.id);
+      if(selectedFolder != null){
+        setFolder(selectedFolder?.id);
+      }else{
+        setFolder("");
+      }
     },
     [selectedFolder]
   )
@@ -87,12 +92,20 @@ function NoteViewer({ display, handleDeleteNote }: Props) {
       handleDeselect();
     } else if (viewedNote == null) {
       if (title !== "") {
-        handleAddNote({
-          title: title,
-          content: content,
-          date: date,
-          folder: folder,
-        });
+        if(folder !== ""){
+          handleAddNote({
+            title: title,
+            content: content,
+            date: date,
+            folder: folder,
+          });
+        } else {
+          handleAddNote({
+            title: title,
+            content: content,
+            date: date,
+          });
+        }
       } else {
         alert("No note was created, please add a title at the least");
       }
@@ -144,9 +157,9 @@ function NoteViewer({ display, handleDeleteNote }: Props) {
           onChange={(e) => handleFolderSelect(e)}
         >
           {folders.length > 0 &&
-            folders.map((folder:Folder) => (
-              <option key={folder.id} value={folder.id}>
-                {folder.name}
+            folders.map((item:Folder) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
               </option>
             ))}
           <option value="">Select a Folder</option>

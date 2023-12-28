@@ -1,4 +1,4 @@
-import {VscFolder, VscSearch} from "react-icons/vsc";
+import {VscAccount, VscFolder, VscInfo, VscQuestion, VscSearch} from "react-icons/vsc";
 import {FaUserGroup} from "react-icons/fa6"
 import { ReactElement, useState } from "react";
 import { Folder } from "@/app/Types/Folder";
@@ -42,11 +42,12 @@ export default function Sidebar({groupsPackage, toggleDrawer, setDelOp}:Props){
                 <span onClick={() => setSelectedTab(true)} className={"cursor-pointer flex flex-row justify-center py-2 hover:bg-AppPurple transition-colors duration-400 ease-in-out rounded-l-xl " + `${selectedTab? "bg-AppPurple":"bg-slate-800"}`}><VscFolder color="white" size={30}></VscFolder></span>
                 <span onClick={() => setSelectedTab(false)} className={"cursor-pointer flex flex-row justify-center py-2 hover:bg-AppPurple transition-colors duration-400 ease-in-out rounded-l-xl " + `${!selectedTab? "bg-AppPurple":"bg-slate-800"}`}><FaUserGroup color="white" size={30}></FaUserGroup></span> 
             </li>
-            <div className="tooltip tooltip-right" data-tip="Log out">
+            <ul className="list-none flex-col items-center">
+            <li onClick={() => {let accModal = document.getElementById("accountModal"); toggleDrawer(); accModal instanceof HTMLDialogElement? accModal.showModal() : null}} className={"cursor-pointer flex flex-row justify-center py-2 hover:bg-AppPurple transition-colors duration-400 ease-in-out rounded-l-xl "}><VscQuestion color="white" size={30}></VscQuestion></li>
+            <div className="tooltip tooltip-right w-full" data-tip="Log out">
                 <li onClick={() => {firebaseSignOut(); setViewedNote(null); setSelectedFolder(null);}} className={"cursor-pointer flex flex-row justify-center py-2 hover:bg-AppPurple transition-colors duration-400 ease-in-out rounded-l-xl "}><VscSignOut color="white" size={30}></VscSignOut></li>
-            </div>
-            
-
+            </div>    
+            </ul>
         </ul>
         <div className="w-60 text-white">
             {selectedTab? <Folders setDelOp={setDelOp} toggleDrawer={toggleDrawer} /> : <div className="p-4"><h2 className="text-lg">Groups</h2><p>Feature coming soon...</p></div>}

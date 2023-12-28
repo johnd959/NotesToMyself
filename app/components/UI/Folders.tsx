@@ -67,12 +67,13 @@ export default function Folders({
           <input
           required={true}
             type="text"
-            className="input input-sm text-black dark:text-white text-lg"
-            placeholder="Folder Name"
+            className="input input-sm w-11/12 text-black dark:text-white text-lg"
+            placeholder="New folder name"
             value={folderName}
             onChange={(e) => handleNameChange(e)}
           ></input>
           <IconButton
+            IconColor="white"
             type="submit"
             Icon={VscAdd}
             className="hover:rotate-90"
