@@ -322,9 +322,7 @@ export default function NotesPage() {
                     title="Delete Account"
                     className="btn btn-error w-full"
                     func={() =>handleDeleteAccount()}
-                    >
-
-                    </Button>
+                    />
                   </div>
                 </div>
                 <form method="dialog" className="modal-backdrop">
