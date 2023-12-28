@@ -321,7 +321,7 @@ export default function NotesPage() {
                     <Button
                     title="Delete Account"
                     className="btn btn-error w-full"
-                    func={handleDeleteAccount}
+                    func={() =>handleDeleteAccount()}
                     >
 
                     </Button>
