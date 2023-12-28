@@ -29,7 +29,6 @@ export function FolderContextProvider({children}){
     async function handleDeleteFolder(folder){
         await deleteFolder(user, folder); 
         setFolders(folders.filter((item) => item.id != folder.id)); 
-        setSelectedFolder(null); 
       }
 
         useEffect(

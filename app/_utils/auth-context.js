@@ -156,6 +156,14 @@ export const AuthContextProvider = ({ children }) => {
     }
     return false;
   }
+
+  const deleteAccount = async() => {
+    try{
+      await deleteUser(user); 
+    } catch(ex){
+      console.error(ex); 
+    }
+  }
  
   const firebaseSignOut = () => {
     return signOut(auth);
@@ -170,7 +178,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [user]);
  
   return (
-    <AuthContext.Provider value={{ user, errM, gitHubSignIn, firebaseSignOut, emailSignIn, signIn, createUser, setErrM, resetPassword  }}>
+    <AuthContext.Provider value={{ user, errM, gitHubSignIn, firebaseSignOut, emailSignIn, signIn, createUser, setErrM, resetPassword, deleteAccount  }}>
       {children}
     </AuthContext.Provider>
   );

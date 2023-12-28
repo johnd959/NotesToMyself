@@ -15,6 +15,7 @@ import {
   getFolders,
   deleteFolder,
   updateFolder,
+  deleteAccountContents,
 } from "../_services/notes-service";
 import Button from "../components/UI/Button";
 import Sidebar from "../components/UI/Sidebar";
@@ -22,10 +23,10 @@ import { useNotesContext } from "../_utils/note-context";
 import { useFoldersContext } from "../_utils/folder-context";
 import IconButton from "../components/UI/IconButton";
 import Confirm from "../components/UI/Confirm";
-
+import { doc } from "firebase/firestore";
 
 export default function NotesPage() {
-  const { user} = useUserAuth();
+  const { user, deleteAccount } = useUserAuth();
   const {
     setNotes,
     handleSearchNotes,
@@ -34,7 +35,8 @@ export default function NotesPage() {
     viewedNote,
     handleDeleteNote,
   } = useNotesContext();
-  const { selectedFolder, setSelectedFolder, handleDeleteFolder } = useFoldersContext();
+  const { selectedFolder, setSelectedFolder, handleDeleteFolder } =
+    useFoldersContext();
   const [editorVisible, setEditorVisible] = useState(true);
   const [searchedTitle, setSearchedTitle] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
@@ -43,10 +45,9 @@ export default function NotesPage() {
   const [nameChange, setNameChange] = useState(false);
   const del = {
     message: "NA",
-    func: () => {}, 
-  }
-  const [delOp, setDelOp] = useState(del); 
-
+    func: () => {},
+  };
+  const [delOp, setDelOp] = useState(del);
 
   function handleSetViewedNote(note: Note) {
     setViewedNote(note);
@@ -66,23 +67,43 @@ export default function NotesPage() {
     }
   }
 
-  function deleteNote(){
-    const modal = document.getElementById("delOpModal");
+  function deleteNote() {
+    const delOpModal = document.getElementById("delOpModal");
     setDelOp({
       message: `Delete note: ${viewedNote.title}?`,
       func: () => {
-        handleDeleteNote(viewedNote); 
-        setDelOp(del); 
-        if (modal instanceof HTMLDialogElement){
-          modal.close(); 
+        handleDeleteNote(viewedNote);
+        setDelOp(del);
+        if (delOpModal instanceof HTMLDialogElement) {
+          delOpModal.close();
         }
-      }
-    })
-    if (modal instanceof HTMLDialogElement){
-      modal.showModal()
+      },
+    });
+    if (delOpModal instanceof HTMLDialogElement) {
+      delOpModal.showModal();
     }
   }
 
+  function handleDeleteAccount(){ 
+    const delOpModal = document.getElementById("delOpModal");
+    console.log("here")
+    setDelOp({
+      message: 'Delete account? All information associated with this account will be erased permanently',
+      func: async () => {
+        await deleteAccountContents(user);
+        await deleteAccount(user); 
+        setDelOp(del); 
+        if (delOpModal instanceof HTMLDialogElement){
+          delOpModal.close(); 
+        }
+      }
+    })
+    let accModal = document.getElementById("accountModal"); 
+    if (delOpModal instanceof HTMLDialogElement  && accModal instanceof HTMLDialogElement){
+      accModal.close();
+      delOpModal.showModal();
+    }
+  }
 
   function handleDeleteAllNotes() {
     setNotes([]);
@@ -166,11 +187,18 @@ export default function NotesPage() {
                 Notes to Myself
               </a>
             </div>
-            <div className={"flex items-center justify-end sm:justify-center w-8/12 sm:w-4/12 join  " + `${isSearchActive? "hidden" : ""}`}>
+            <div
+              className={
+                "flex items-center justify-end sm:justify-center w-8/12 sm:w-4/12 join  " +
+                `${isSearchActive ? "hidden" : ""}`
+              }
+            >
               {nameChange != true ? (
-                  <div className="btn btn-primary rounded-md cursor-default join-item">
-                    {selectedFolder ? selectedFolder.name.substr(0, 20) : "All Notes"}
-                  </div>
+                <div className="btn btn-primary rounded-md cursor-default join-item">
+                  {selectedFolder
+                    ? selectedFolder.name.substr(0, 20)
+                    : "All Notes"}
+                </div>
               ) : (
                 <input
                   type="text"
@@ -182,25 +210,33 @@ export default function NotesPage() {
                   onChange={(e) => handleFolderName(e)}
                 ></input>
               )}
-              <div className={"flex " +
-                  `${!nameChange && selectedFolder ? "" : "hidden"}`}>
-                <Button
+              <div
                 className={
-                  "join-item rounded-md btn-primary"
+                  "flex " + `${!nameChange && selectedFolder ? "" : "hidden"}`
                 }
-                func={() => handleFolderNameChange()}
-                Icon={VscEdit}
-                iconSize={20}
-              ></Button>
-              <Button
-                className="join-item btn-primary"
-                func={() => {endFilter(); setSelectedFolder(null)}}
-                Icon={VscClose}
-              />                
+              >
+                <Button
+                  className={"join-item rounded-md btn-primary"}
+                  func={() => handleFolderNameChange()}
+                  Icon={VscEdit}
+                  iconSize={20}
+                ></Button>
+                <Button
+                  className="join-item btn-primary"
+                  func={() => {
+                    endFilter();
+                    setSelectedFolder(null);
+                  }}
+                  Icon={VscClose}
+                />
               </div>
-              
             </div>
-            <div className={"flex-row gap-2 w-4/12 justify-end sm:flex " + `${!isSearchActive? "hidden" : ""}`}>
+            <div
+              className={
+                "flex-row gap-2 w-4/12 justify-end sm:flex " +
+                `${!isSearchActive ? "hidden" : ""}`
+              }
+            >
               {isSearchActive && (
                 <button
                   className="btn btn-outline btn-error"
@@ -230,10 +266,12 @@ export default function NotesPage() {
                   value={searchedTitle}
                   onChange={handleSearchTitle}
                   className="input input-bordered input-sm w-full"
-                  placeholder={`Search in: ${selectedFolder? selectedFolder.name : "All notes"}`}
+                  placeholder={`Search in: ${
+                    selectedFolder ? selectedFolder.name : "All notes"
+                  }`}
                 ></input>
                 <div className="flex flex-row items-center justify-end w-full gap-2">
-                <Button
+                  <Button
                     className="btn btn-error"
                     title="Cancel"
                     func={() => {
@@ -244,20 +282,65 @@ export default function NotesPage() {
                     }}
                   />
                   <Button
-                  title="Search"
+                    title="Search"
                     className="btn btn-primary"
                     func={handleSearchNote}
                   />
                 </div>
               </div>
             </dialog>
+            <dialog id="accountModal" className="modal">
+              <div className="modal-box flex flex-col items-center gap-2">
+                <h2 className="text-lg font-bold">Account Information</h2>
+                <div className="collapse collapse-arrow bg-base-200">
+                  <input type="radio" name="my-accordion-2"/>
+                  <div className="collapse-title text-xl font-medium">
+                    How is my Email Used?
+                  </div>
+                  <div className="collapse-content h-fit">
+                    <p>Your email is used for the express purpose of establishing methods for sign-in and password resets.
+                      If you have decided to use an alternate sign-in method (Google or Github), only your email will be shared with us. 
+                    </p>
+                  </div>
+                </div>
+                <div className="collapse collapse-arrow bg-base-200">
+                  <input type="radio" name="my-accordion-2"/>
+                  <div className="collapse-title text-xl font-medium">
+                    Who can see my notes?
+                  </div>
+                  <div className="collapse-content">
+                    <p>Only people who have access to your log-in Information can access your account and, subsequently, view your notes.</p>
+                  </div>
+                </div>
+                <div className="collapse collapse-arrow bg-base-200">
+                  <input type="radio" name="my-accordion-2" />
+                  <div className="collapse-title text-xl font-medium">
+                    How do I delete my account?
+                  </div>
+                  <div className="collapse-content">
+                    <Button
+                    title="Delete Account"
+                    className="btn btn-error w-full"
+                    func={handleDeleteAccount}
+                    >
+
+                    </Button>
+                  </div>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button className="btn btn-error">Close</button>
+                </form>
+              </div>
+            </dialog>
             <Confirm
-            modalID="delOpModal"
-            message={delOp.message}
-            actions={[{
-              name:"Delete",
-              action: () => delOp.func()
-            }]}
+              modalID="delOpModal"
+              message={delOp.message}
+              actions={[
+                {
+                  name: "Delete",
+                  action: () => delOp.func(),
+                },
+              ]}
             />
           </div>
           <NotesScroll
@@ -278,7 +361,7 @@ export default function NotesPage() {
           )}
           <section>
             <NoteViewer
-            handleDeleteNote={deleteNote}
+              handleDeleteNote={deleteNote}
               display={editorVisible == true ? "flex" : "hidden"}
             ></NoteViewer>
           </section>

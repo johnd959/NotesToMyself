@@ -19,7 +19,7 @@ function TabList({ notes, handleSetViewedNote, viewedNote}: Props) {
       {notes.length > 0 ? 
         notes.map((Note) => 
             <Notestab
-            viewedNote={viewedNote}
+              viewedNote={viewedNote}
               note={Note}
               onSetViewedNote={handleSetViewedNote}
               key={Note.id}
