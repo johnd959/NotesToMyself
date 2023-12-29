@@ -28,9 +28,7 @@ export async function getNotes(user : User)
         querySnapshot.forEach((doc) => {
 
             let data = doc.data(); 
-            if(data.folder === ""){
-                notes.push(
-
+            notes.push(
                     {
                         id: doc.id, 
                         title: data.title,
@@ -39,20 +37,9 @@ export async function getNotes(user : User)
                         folder: data.folder
                     }
                 );
-            }else{
-                notes.push(
-
-                    {
-                        id: doc.id, 
-                        title: data.title,
-                        content: data.content,
-                        date: data.date.toDate(),
-                    }
-                ); 
-            }
    
         });
-        console.log("reading from Firestore");
+        console.log("reading from FireBase at getNotes");
     }
     catch(ex : any){
         console.log(ex); 
@@ -68,24 +55,15 @@ export async function updateNote(user: User, note: Note){
     {
         const docRef = doc(db, "users", user.uid, "notes", note.id); 
         try{
-            if(note.folder === ""){
                 await updateDoc(docRef, {
                     title: note.title,
                     content: note.content,
                     date: note.date,
                     folder: note.folder
                 }); 
-            }else{
-                updateDoc(docRef, {
-                    title: note.title,
-                    content: note.content,
-                    date: note.date,
-                    folder: deleteField()
-                });
-            }
-            console.log("reading from Firestore");
-        }
-        catch(ex :any){
+        
+                console.log("writing to FireBase at updateNote");
+            }catch(ex :any){
             console.log(ex); 
         }
     }
@@ -99,7 +77,7 @@ export async function createNote(user: User, note: Note)
             note
             
         )
-        console.log("reading from Firestore");
+        console.log("writing to FireBase at createNote");
         return docRef?.id;
     }
     catch(ex : any){
@@ -112,7 +90,7 @@ export async function deleteNote(user:User, note:Note) {
     try{
         const docRef = doc(db, "users", user.uid, "notes", note.id);
         await deleteDoc(docRef);
-        console.log("reading from Firestore");
+        console.log("writing to FireStore at deleteNote");
     }
     catch(ex :any)
     {
@@ -148,12 +126,12 @@ export async function createFolder(user: User, folder: Folder)
             collection(db, "users", user.uid, "folders"),
             folder
         )
+        console.log("writing to FireBase at createFolder");
         return docRef?.id;
     }
     catch(ex : any){
         console.log(ex);
     }
-    console.log("reading from Firestore");
 }
 
 export async function getFolders(user : User)
@@ -176,7 +154,7 @@ export async function getFolders(user : User)
                 }
             );
         });
-        console.log("reading from Firestore");
+        console.log("reading from FireStore at getFolders");
     }
     catch(ex : any){
         console.log(ex); 
@@ -199,7 +177,7 @@ export async function deleteFolder(user:User, folder:Folder) {
         querySnapshot.forEach(async (document) => await updateDoc(doc(db, "users", user.uid, "notes", document.id), {
             folder: deleteField()
         })); 
-        console.log("reading from Firestore");
+        console.log("writing to FireStore at deleteFolder");
     }
     catch(ex :any)
     {
@@ -215,7 +193,7 @@ export async function updateFolder(user: User, folder: Folder){
             await updateDoc(docRef, {
                 name: folder.name
             }); 
-            console.log("reading from Firestore");
+            console.log("writing to FireStore at updateFolder");
         }
         catch(ex :any){
             console.log(ex); 
@@ -227,7 +205,7 @@ export async function deleteAccountContents(user:User) {
     try{
         const docRef = doc(db, "users", user.uid);
         await deleteDoc(docRef);
-        console.log("reading from Firestore");
+        console.log("writing to FireStore at deleteAccountContents");
     }
     catch(ex :any)
     {

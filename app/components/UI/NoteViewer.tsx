@@ -20,7 +20,7 @@ function NoteViewer({ display, handleDeleteNote }: Props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [date, setDate] = useState(new Date());
-  const [folder, setFolder]: [string, Function] = useState("");
+  const [folder, setFolder]: [string | null, Function] = useState("");
   const {folders, selectedFolder} = useFoldersContext(); 
   const { user } = useUserAuth();
   const { handleAddNote} = useNotesContext();

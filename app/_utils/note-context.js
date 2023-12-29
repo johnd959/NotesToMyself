@@ -10,6 +10,7 @@ const NotesContext = createContext();
 export function NoteContextProvider({children}){
     const [notes, setNotes] = useState([]); 
     const [originalNotes, setOriginalNotes] = useState([]); 
+    const {selectedFolder} = useFoldersContext();
     const [viewedNote, setViewedNote] = useState(null);
     const [filter, setFilter] = useState(false); 
     const {user} = useUserAuth(); 
@@ -63,11 +64,11 @@ export function NoteContextProvider({children}){
 
     function endFilter(folder=null){
         setViewedNote(null);
-        setFilter(false); 
         if(folder){
             setNotes(originalNotes.filter((note) => note.folder == folder.id))
         }
         else{
+            setFilter(false);
             setNotes(originalNotes); 
         }
     }
@@ -81,7 +82,12 @@ export function NoteContextProvider({children}){
 
     useEffect(
         () => {
-            setNotes(originalNotes);
+            if(filter && selectedFolder){
+                setNotes(originalNotes.filter((note) => note.folder === selectedFolder.id));
+            }else{
+                setNotes(originalNotes);
+            }
+            
         },
         [originalNotes]
     )
