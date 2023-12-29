@@ -14,8 +14,8 @@ interface Props {
 export default function Confirm({ modalID, message, actions }: Props) {
   return (
     <dialog id={modalID} className="modal">
-      <div className="bg-black modal-box flex flex-row items-center justify-between ring-2 ring-error">
-        <div className="text-error">{message}</div>
+      <div className="bg-black modal-box flex flex-col items-center justify-between ring-2 ring-error gap-4">
+        <div className="text-error font-bold text-center">{message}</div>
         <div className="flex flex-row gap-2">
           {actions.map((action) => (
             <Button

@@ -39,7 +39,6 @@ export async function getNotes(user : User)
                 );
    
         });
-        console.log("reading from FireBase at getNotes");
     }
     catch(ex : any){
         console.log(ex); 
@@ -62,7 +61,6 @@ export async function updateNote(user: User, note: Note){
                     folder: note.folder
                 }); 
         
-                console.log("writing to FireBase at updateNote");
             }catch(ex :any){
             console.log(ex); 
         }
@@ -77,7 +75,6 @@ export async function createNote(user: User, note: Note)
             note
             
         )
-        console.log("writing to FireBase at createNote");
         return docRef?.id;
     }
     catch(ex : any){
@@ -90,7 +87,6 @@ export async function deleteNote(user:User, note:Note) {
     try{
         const docRef = doc(db, "users", user.uid, "notes", note.id);
         await deleteDoc(docRef);
-        console.log("writing to FireStore at deleteNote");
     }
     catch(ex :any)
     {
@@ -111,7 +107,6 @@ export async function deleteAllNotes(user:User) {
                 date: doc.data().date.toDate()
             });
         });
-        console.log("reading from Firestore");
     }
     catch(ex :any)
     {
@@ -126,7 +121,6 @@ export async function createFolder(user: User, folder: Folder)
             collection(db, "users", user.uid, "folders"),
             folder
         )
-        console.log("writing to FireBase at createFolder");
         return docRef?.id;
     }
     catch(ex : any){
@@ -154,7 +148,6 @@ export async function getFolders(user : User)
                 }
             );
         });
-        console.log("reading from FireStore at getFolders");
     }
     catch(ex : any){
         console.log(ex); 
@@ -177,7 +170,6 @@ export async function deleteFolder(user:User, folder:Folder) {
         querySnapshot.forEach(async (document) => await updateDoc(doc(db, "users", user.uid, "notes", document.id), {
             folder: deleteField()
         })); 
-        console.log("writing to FireStore at deleteFolder");
     }
     catch(ex :any)
     {
@@ -193,7 +185,6 @@ export async function updateFolder(user: User, folder: Folder){
             await updateDoc(docRef, {
                 name: folder.name
             }); 
-            console.log("writing to FireStore at updateFolder");
         }
         catch(ex :any){
             console.log(ex); 
@@ -205,7 +196,6 @@ export async function deleteAccountContents(user:User) {
     try{
         const docRef = doc(db, "users", user.uid);
         await deleteDoc(docRef);
-        console.log("writing to FireStore at deleteAccountContents");
     }
     catch(ex :any)
     {

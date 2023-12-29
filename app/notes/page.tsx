@@ -71,8 +71,8 @@ export default function NotesPage() {
     const delOpModal = document.getElementById("delOpModal");
     setDelOp({
       message: `Delete note: ${viewedNote.title}?`,
-      func: () => {
-        handleDeleteNote(viewedNote);
+      func: async () => {
+        await handleDeleteNote(viewedNote);
         setDelOp(del);
         if (delOpModal instanceof HTMLDialogElement) {
           delOpModal.close();
@@ -267,7 +267,7 @@ export default function NotesPage() {
                   onChange={handleSearchTitle}
                   className="input input-bordered input-sm w-full"
                   placeholder={`Search in: ${
-                    selectedFolder ? selectedFolder.name : "All notes"
+                    selectedFolder ? selectedFolder.name : "All Notes"
                   }`}
                 ></input>
                 <div className="flex flex-row items-center justify-end w-full gap-2">
