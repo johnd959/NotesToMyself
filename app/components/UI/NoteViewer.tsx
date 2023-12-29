@@ -123,7 +123,6 @@ function NoteViewer({ display, handleDeleteNote }: Props) {
       setTitle("");
       setContent("");
       setDate(new Date());
-      setFolder("");
     }
   }
 
