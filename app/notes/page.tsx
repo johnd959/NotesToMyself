@@ -297,7 +297,7 @@ export default function NotesPage() {
                   <div className="collapse-title text-xl font-medium">
                     How is my Email Used?
                   </div>
-                  <div className="collapse-content h-fit">
+                  <div className="collapse-content">
                     <p>Your email is used for the express purpose of establishing methods for sign-in and password resets.
                       If you have decided to use an alternate sign-in method (Google or Github), only your email will be shared with us. 
                     </p>
