@@ -86,7 +86,6 @@ export default function NotesPage() {
 
   function handleDeleteAccount(){ 
     const delOpModal = document.getElementById("delOpModal");
-    console.log("here")
     setDelOp({
       message: 'Delete account? All information associated with this account will be erased permanently',
       func: async () => {
@@ -194,7 +193,7 @@ export default function NotesPage() {
               }
             >
               {nameChange != true ? (
-                <div className="btn btn-primary rounded-md cursor-default join-item">
+                <div className={"btn btn-primary rounded-md cursor-default " + `${selectedFolder? "join-item" : ""}`}>
                   {selectedFolder
                     ? selectedFolder.name.substr(0, 20)
                     : "All Notes"}
