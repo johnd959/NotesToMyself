@@ -6,14 +6,6 @@ import { FocusEventHandler } from "react";
 import { Folder } from "../Types/Folder";
 
 
-// export async function createUser(user: User){
-//     try{
-//         const docRef = addDoc(collection(db, "users"), ); 
-//     }
-//     catch(ex:any){
-//         console.error(ex); 
-//     }
-// }
 
 export async function getNotes(user : User)
 {
@@ -41,7 +33,7 @@ export async function getNotes(user : User)
         });
     }
     catch(ex : any){
-        console.log(ex); 
+        console.error(ex); 
     }
     
     return notes; 
@@ -62,7 +54,7 @@ export async function updateNote(user: User, note: Note){
                 }); 
         
             }catch(ex :any){
-            console.log(ex); 
+            console.error(ex); 
         }
     }
 }
@@ -78,8 +70,7 @@ export async function createNote(user: User, note: Note)
         return docRef?.id;
     }
     catch(ex : any){
-        console.log(note);
-        console.log(ex);
+        console.error(ex);
     }
 }
 
@@ -90,7 +81,7 @@ export async function deleteNote(user:User, note:Note) {
     }
     catch(ex :any)
     {
-        console.log(ex);
+        console.error(ex);
     }
 }
 export async function deleteAllNotes(user:User) {
@@ -110,7 +101,7 @@ export async function deleteAllNotes(user:User) {
     }
     catch(ex :any)
     {
-        console.log(ex);
+        console.error(ex);
     }
 }
 
@@ -124,7 +115,7 @@ export async function createFolder(user: User, folder: Folder)
         return docRef?.id;
     }
     catch(ex : any){
-        console.log(ex);
+        console.error(ex);
     }
 }
 
@@ -150,7 +141,7 @@ export async function getFolders(user : User)
         });
     }
     catch(ex : any){
-        console.log(ex); 
+        console.error(ex); 
     }
     
     return folders; 
@@ -173,7 +164,17 @@ export async function deleteFolder(user:User, folder:Folder) {
     }
     catch(ex :any)
     {
-        console.log(ex);
+        console.error(ex);
+    }
+}
+export async function deleteFolderIndiscriminate(user:User, folderId:string) {
+    try{
+        const docRef = doc(db, "users", user.uid, "folders", folderId);
+        await deleteDoc(docRef);
+    }
+    catch(ex :any)
+    {
+        console.error(ex);
     }
 }
 
@@ -187,18 +188,36 @@ export async function updateFolder(user: User, folder: Folder){
             }); 
         }
         catch(ex :any){
-            console.log(ex); 
+            console.error(ex); 
         }
+    }
+}
+
+export async function deleteAllFolders(user:User) {
+    try{
+        const q = query(
+            collection(db, "users", user.uid, "folders")
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            deleteFolderIndiscriminate(user, doc.id);
+        }); 
+    }
+    catch(ex :any)
+    {
+        console.error(ex);
     }
 }
 
 export async function deleteAccountContents(user:User) {
     try{
+        deleteAllNotes(user); 
+        deleteAllFolders(user);  
         const docRef = doc(db, "users", user.uid);
         await deleteDoc(docRef);
     }
     catch(ex :any)
     {
-        console.log(ex);
+        console.error(ex);
     }
 }
