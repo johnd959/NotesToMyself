@@ -12,7 +12,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-Icons from the [React Icons](https://react-icons.github.io/react-icons/)module are used, including the [Font Awesome](https://react-icons.github.io/react-icons/icons/fa/), [Font Awesome 6](https://react-icons.github.io/react-icons/icons/fa6/), and VS Code[](https://react-icons.github.io/react-icons/icons/vsc/) libraries.
+Icons from the [React Icons](https://react-icons.github.io/react-icons/) module are used, including the [Font Awesome](https://react-icons.github.io/react-icons/icons/fa/), [Font Awesome 6](https://react-icons.github.io/react-icons/icons/fa6/), and VS Code[](https://react-icons.github.io/react-icons/icons/vsc/) libraries.
 
 ## Privacy/Security
 
