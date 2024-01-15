@@ -80,7 +80,7 @@ export default function Home() {
     return <Link href="/notes">Click if redirect does not work</Link>;
   } else if (menu == 1) {
     return (
-      <main style={{backgroundImage: require("./assets/images/background.jpg")}} className="flex flex-col justify-center items-center gap-2 min-h-screen">
+      <main className="flex flex-col justify-center items-center gap-2 min-h-screen">
         <div className="flex flex-col justify-center gap-2 bg-black p-12 rounded-xl">
           <h1 className="text-center text-white mb-5 text-lg">
             Notes to Myself
