@@ -120,7 +120,7 @@ export const AuthContextProvider = ({ children }) => {
         setErrM("Please enter a password");
       }
       else if(ex.code == "auth/invalid-credential"){
-        setErrM("Wrong Password"); 
+        setErrM("Email and/or password is wrong"); 
       }
       else{
         setErrM("Something went wrong, please try again");

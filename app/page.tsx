@@ -8,6 +8,7 @@ import { RedirectType, redirect } from "next/navigation";
 import { VscGithubAlt, VscAccount } from "react-icons/vsc";
 import { FaGoogle } from "react-icons/fa";
 import Link from "next/link";
+import background from './assets/images/background.jpg'; 
 
 export default function Home() {
   const {
