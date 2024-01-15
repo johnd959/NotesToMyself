@@ -317,9 +317,10 @@ export default function NotesPage() {
                     How do I delete my account?
                   </div>
                   <div className="collapse-content">
+                    <p>If you are not logged out promptly and nothing happens, please sign in again and restart this process.</p>
                     <Button
                     title="Delete Account"
-                    className="btn btn-error w-full"
+                    className="btn btn-error w-full my-2"
                     func={() =>handleDeleteAccount()}
                     />
                   </div>
